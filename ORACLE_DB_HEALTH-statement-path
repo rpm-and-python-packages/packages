@@ -1,0 +1,53 @@
+[root@N4PENL-DEPM0618 logstash]# cat "/etc/logstash/conf.d/sql/Long_Running_Query"
+select s.username||','||s.sid||','||s.serial#||','||s.last_call_et/60||','||q.sql_text from v$session s
+join v$sqltext_with_newlines q
+on s.sql_address = q.address
+ where status='ACTIVE'
+and type <>'BACKGROUND'
+and last_call_et>7200
+order by sid,serial#,q.piece
+
+
+[root@N4PENL-DEPM0618 logstash]# cat "/etc/logstash/conf.d/sql/crt_tablespace"
+SELECT (select name from v$database)"DB_Name",F.TABLESPACE_NAME,
+T.TOTAL_SPACE "TOTAL_MB",
+(T.TOTAL_SPACE - F.FREE_SPACE) "USED_MB",
+F.FREE_SPACE "FREE_MB",
+TO_CHAR ((ROUND ((F.FREE_SPACE/T.TOTAL_SPACE)*100)),'999') "Free%"
+FROM   (
+SELECT       TABLESPACE_NAME,
+ROUND (SUM (BLOCKS*(SELECT VALUE/1024
+FROM V$PARAMETER
+WHERE NAME = 'db_block_size')/1024)
+) FREE_SPACE
+FROM DBA_FREE_SPACE where tablespace_name not like '%UNDO%'
+GROUP BY TABLESPACE_NAME
+) F,
+(
+SELECT TABLESPACE_NAME,
+ROUND (SUM (BYTES/1048576)) TOTAL_SPACE
+FROM DBA_DATA_FILES
+GROUP BY TABLESPACE_NAME
+) T
+WHERE F.TABLESPACE_NAME = T.TABLESPACE_NAME
+ order by 5
+
+
+
+[root@N4PENL-DEPM0618 logstash]# cat "/etc/logstash/conf.d/sql/undo_tablespace"
+select a.tablespace_name, SIZEMB, USAGEMB, (SIZEMB - USAGEMB) FREEMB, ((USAGEMB/SIZEMB)*100) PCT_USED
+from (select sum(bytes) / 1024 / 1024 SIZEMB, b.tablespace_name
+from dba_data_files a, dba_tablespaces b
+where a.tablespace_name = b.tablespace_name
+and b.contents = 'UNDO'
+group by b.tablespace_name) a,
+(select c.tablespace_name, sum(bytes) / 1024 / 1024 USAGEMB
+from DBA_UNDO_EXTENTS c
+where status <> 'EXPIRED'
+group by c.tablespace_name) b
+where a.tablespace_name = b.tablespace_name
+
+
+
+[root@N4PENL-DEPM0618 logstash]# cat "/etc/logstash/conf.d/sql/open_cursor_new"
+select a.value as "OPEN_CURSORS", s.username, s.sid, s.serial#,s.sql_id,s.status,s.event,s.last_call_et,s.process as "OS_PID",to_char(s.logon_time,'DD-MM-YYYY HH24:MI:SS') as "LOGON_TIME" from v$sesstat a, v$statname b, v$session s where a.statistic# = b.statistic#  and s.sid=a.sid and b.name = 'opened cursors current' and a.value>2 and s.username is not null order by value

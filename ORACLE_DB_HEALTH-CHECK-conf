@@ -1,0 +1,488 @@
+[root@N4PENL-DEPM0618 logstash]# cat "/etc/logstash2/conf.d/logstash_7newHome/apex_db_monitoring.conf"
+input{
+
+########################## long running ##############
+
+       jdbc{
+                jdbc_driver_library => "/etc/logstash/conf.d/jar/ojdbc7.jar"
+                jdbc_driver_class => "Java::oracle.jdbc.driver.OracleDriver"
+                jdbc_connection_string => "jdbc:oracle:thin:@10.241.66.52:1535/PREAPEX"
+                jdbc_user => "AIOPS"
+                jdbc_password => "aiops"
+                schedule => "0 */2 * * *"
+                statement_filepath => "/etc/logstash/conf.d/sql/Long_Running_Query"
+                type => "RTR_long_running_pri"
+                add_field => {"IP" => "10.241.66.52"}
+               }
+
+       jdbc{
+                jdbc_driver_library => "/etc/logstash/conf.d/jar/ojdbc7.jar"
+                jdbc_driver_class => "Java::oracle.jdbc.driver.OracleDriver"
+                jdbc_connection_string => "jdbc:oracle:thin:@10.241.66.52:1535/PREAPEX"
+                jdbc_user => "AIOPS"
+                jdbc_password => "aiops"
+                schedule => "0 */2 * * *"
+                statement_filepath => "/etc/logstash/conf.d/sql/Long_Running_Query"
+                type => "RTR_long_running_sec"
+                add_field => {"IP" => "10.241.66.52"}
+               }
+############################# session ############
+
+        jdbc{
+                jdbc_driver_library => "/etc/logstash/conf.d/jar/ojdbc7.jar"
+                jdbc_driver_class => "Java::oracle.jdbc.driver.OracleDriver"
+                jdbc_connection_string => "jdbc:oracle:thin:@10.241.66.52:1535/PREAPEX"
+                jdbc_user => "AIOPS"
+                jdbc_password => "aiops"
+                schedule => "*/30 * * * *"
+                statement => "select inst_id||','||username||','||status||','||count(*) from gv$session where username is not null and username not in ('AIOPS','SYS','SYSTEM','DBSNMP') group by inst_id,username,status order by username, status"
+                type => "RTR_Session_pri"
+                add_field => {"IP" => "10.241.66.52"}
+        }
+
+        jdbc{
+                jdbc_driver_library => "/etc/logstash/conf.d/jar/ojdbc7.jar"
+                jdbc_driver_class => "Java::oracle.jdbc.driver.OracleDriver"
+                jdbc_connection_string => "jdbc:oracle:thin:@10.241.66.52:1535/PREAPEX"
+                jdbc_user => "AIOPS"
+                jdbc_password => "aiops"
+                schedule => "*/30 * * * *"
+                statement => "select inst_id||','||username||','||status||','||count(*) from gv$session where username is not null and username not in ('AIOPS','SYS','SYSTEM','DBSNMP') group by inst_id,username,status order by username, status"
+                type => "RTR_Session_sec"
+                add_field => {"IP" => "10.241.66.52"}
+        }
+
+######################  asm diskgroup  ###########
+
+        jdbc{
+                jdbc_driver_library => "/etc/logstash/conf.d/jar/ojdbc7.jar"
+                jdbc_driver_class => "Java::oracle.jdbc.driver.OracleDriver"
+                jdbc_connection_string => "jdbc:oracle:thin:@10.241.66.52:1535/PREAPEX"
+                jdbc_user => "AIOPS"
+                jdbc_password => "aiops"
+                schedule => "*/30 * * * *"
+                statement => "select name||','||state||','||total_mb/1024||','||free_mb/1024||','||(((total_mb - free_mb)/1024)*100)/(total_mb/1024) pct_USED from v$asm_diskgroup"
+                type => "RTR_asm_disk_pri"
+                add_field => {"IP" => "10.241.66.52"}
+        }
+
+        jdbc{
+                jdbc_driver_library => "/etc/logstash/conf.d/jar/ojdbc7.jar"
+                jdbc_driver_class => "Java::oracle.jdbc.driver.OracleDriver"
+                jdbc_connection_string => "jdbc:oracle:thin:@10.241.66.52:1535/PREAPEX"
+                jdbc_user => "AIOPS"
+                jdbc_password => "aiops"
+                schedule => "*/30 * * * *"
+                statement => "select name||','||state||','||total_mb/1024||','||free_mb/1024||','||(((total_mb - free_mb)/1024)*100)/(total_mb/1024) pct_USED from v$asm_diskgroup"
+                type => "RTR_asm_disk_sec"
+                add_field => {"IP" => "10.241.66.52"}
+        }
+
+#################  crt tablespace #############
+        jdbc{
+                jdbc_driver_library => "/etc/logstash/conf.d/jar/ojdbc7.jar"
+                jdbc_driver_class => "Java::oracle.jdbc.driver.OracleDriver"
+                jdbc_connection_string => "jdbc:oracle:thin:@10.241.66.52:1535/PREAPEX"
+                jdbc_user => "AIOPS"
+                jdbc_password => "aiops"
+                schedule => "*/30 * * * *"
+                statement_filepath => "/etc/logstash/conf.d/sql/crt_tablespace"
+                type => "RTR_crt_table_pri"
+                add_field => {"IP" => "10.241.66.52"}
+        }
+
+        jdbc{
+                jdbc_driver_library => "/etc/logstash/conf.d/jar/ojdbc7.jar"
+                jdbc_driver_class => "Java::oracle.jdbc.driver.OracleDriver"
+                jdbc_connection_string => "jdbc:oracle:thin:@10.241.66.52:1535/PREAPEX"
+                jdbc_user => "AIOPS"
+                jdbc_password => "aiops"
+                schedule => "*/30 * * * *"
+                statement_filepath => "/etc/logstash/conf.d/sql/crt_tablespace"
+                type => "RTR_crt_table_sec"
+                add_field => {"IP" => "10.241.66.52"}
+        }
+
+############### undo Tablespace   #############
+
+        jdbc{
+                jdbc_driver_library => "/etc/logstash/conf.d/jar/ojdbc7.jar"
+                jdbc_driver_class => "Java::oracle.jdbc.driver.OracleDriver"
+                jdbc_connection_string => "jdbc:oracle:thin:@10.241.66.52:1535/PREAPEX"
+                jdbc_user => "AIOPS"
+                jdbc_password => "aiops"
+                schedule => "*/30 * * * *"
+                statement_filepath => "/etc/logstash/conf.d/sql/undo_tablespace"
+                type => "RTR_unod_table_pri"
+                add_field => {"IP" => "10.241.66.52"}
+        }
+
+        jdbc{
+                jdbc_driver_library => "/etc/logstash/conf.d/jar/ojdbc7.jar"
+                jdbc_driver_class => "Java::oracle.jdbc.driver.OracleDriver"
+                jdbc_connection_string => "jdbc:oracle:thin:@10.241.66.52:1535/PREAPEX"
+                jdbc_user => "AIOPS"
+                jdbc_password => "aiops"
+                schedule => "*/30 * * * *"
+                statement_filepath => "/etc/logstash/conf.d/sql/undo_tablespace"
+                type => "RTR_undo_table_sec"
+                add_field => {"IP" => "10.241.66.52"}
+        }
+
+
+##############   open cursor ##############
+
+        jdbc{
+                jdbc_driver_library => "/etc/logstash/conf.d/jar/ojdbc7.jar"
+                jdbc_driver_class => "Java::oracle.jdbc.driver.OracleDriver"
+                jdbc_connection_string => "jdbc:oracle:thin:@10.241.66.52:1535/PREAPEX"
+                jdbc_user => "AIOPS"
+                jdbc_password => "aiops"
+                schedule => "*/30 * * * *"
+                statement_filepath => "/etc/logstash/conf.d/sql/open_cursor_new"
+                type => "RTR_open_cursor_pri"
+                add_field => {"IP" => "10.241.66.52"}
+        }
+
+        jdbc{
+                jdbc_driver_library => "/etc/logstash/conf.d/jar/ojdbc7.jar"
+                jdbc_driver_class => "Java::oracle.jdbc.driver.OracleDriver"
+                jdbc_connection_string => "jdbc:oracle:thin:@10.241.66.52:1535/PREAPEX"
+                jdbc_user => "AIOPS"
+                jdbc_password => "aiops"
+                schedule => "*/30 * * * *"
+                statement_filepath => "/etc/logstash/conf.d/sql/open_cursor_new"
+                type => "RTR_open_cursor_sec"
+                add_field => {"IP" => "10.241.66.52"}
+        }
+
+###############  standby status   #############
+
+        jdbc{
+                jdbc_driver_library => "/etc/logstash/conf.d/jar/ojdbc7.jar"
+                jdbc_driver_class => "Java::oracle.jdbc.driver.OracleDriver"
+                jdbc_connection_string => "jdbc:oracle:thin:@10.241.66.52:1535/PREAPEX"
+                jdbc_user => "AIOPS"
+                jdbc_password => "aiops"
+                schedule => "*/15 * * * *"
+                statement => "SELECT   a.thread#,  b. last_seq, a.applied_seq, a. last_app_timestamp, b.last_seq-a.applied_seq   ARC_DIFF FROM (SELECT  thread#, MAX(sequence#) applied_seq, MAX(next_time) last_app_timestamp FROM gv$archived_log WHERE applied = 'YES' GROUP BY thread#) a,           (SELECT  thread#, MAX (sequence#) last_seq FROM gv$archived_log GROUP BY thread#) b WHERE a.thread# = b.thread#"
+                type => "RTR_stdby_pri"
+                add_field => {"IP" => "10.241.66.52"}
+        }
+
+        jdbc{
+                jdbc_driver_library => "/etc/logstash/conf.d/jar/ojdbc7.jar"
+                jdbc_driver_class => "Java::oracle.jdbc.driver.OracleDriver"
+                jdbc_connection_string => "jdbc:oracle:thin:@10.241.66.52:1535/PREAPEX"
+                jdbc_user => "AIOPS"
+                jdbc_password => "aiops"
+                schedule => "*/15 * * * *"
+                statement => "SELECT   a.thread#,  b. last_seq, a.applied_seq, a. last_app_timestamp, b.last_seq-a.applied_seq   ARC_DIFF FROM (SELECT  thread#, MAX(sequence#) applied_seq, MAX(next_time) last_app_timestamp FROM gv$archived_log WHERE applied = 'YES' GROUP BY thread#) a,           (SELECT  thread#, MAX (sequence#) last_seq FROM gv$archived_log GROUP BY thread#) b WHERE a.thread# = b.thread#"
+                type => "RTR_stdby_sec"
+                add_field => {"IP" => "10.241.66.52"}
+        }
+
+
+
+
+
+
+
+
+                ########################## long running ##############
+
+       jdbc{
+                jdbc_driver_library => "/etc/logstash/conf.d/jar/ojdbc7.jar"
+                jdbc_driver_class => "Java::oracle.jdbc.driver.OracleDriver"
+                jdbc_connection_string => "jdbc:oracle:thin:@10.241.98.167:1535/UMARKET"
+                jdbc_user => "AIOPS"
+                jdbc_password => "aiops"
+                schedule => "0 */2 * * *"
+                statement_filepath => "/etc/logstash/conf.d/sql/Long_Running_Query"
+                type => "RTR_long_running_pri"
+                add_field => {"IP" => "10.241.98.167"}
+               }
+
+       jdbc{
+                jdbc_driver_library => "/etc/logstash/conf.d/jar/ojdbc7.jar"
+                jdbc_driver_class => "Java::oracle.jdbc.driver.OracleDriver"
+                jdbc_connection_string => "jdbc:oracle:thin:@10.241.98.167:1535/UMARKET"
+                jdbc_user => "AIOPS"
+                jdbc_password => "aiops"
+                schedule => "0 */2 * * *"
+                statement_filepath => "/etc/logstash/conf.d/sql/Long_Running_Query"
+                type => "RTR_long_running_sec"
+                add_field => {"IP" => "10.241.98.167"}
+               }
+############################# session ############
+
+        jdbc{
+                jdbc_driver_library => "/etc/logstash/conf.d/jar/ojdbc7.jar"
+                jdbc_driver_class => "Java::oracle.jdbc.driver.OracleDriver"
+                jdbc_connection_string => "jdbc:oracle:thin:@10.241.98.167:1535/UMARKET"
+                jdbc_user => "AIOPS"
+                jdbc_password => "aiops"
+                schedule => "*/30 * * * *"
+                statement => "select inst_id||','||username||','||status||','||count(*) from gv$session where username is not null and username not in ('AIOPS','SYS','SYSTEM','DBSNMP') group by inst_id,username,status order by username, status"
+                type => "RTR_Session_pri"
+                add_field => {"IP" => "10.241.98.167"}
+        }
+
+        jdbc{
+                jdbc_driver_library => "/etc/logstash/conf.d/jar/ojdbc7.jar"
+                jdbc_driver_class => "Java::oracle.jdbc.driver.OracleDriver"
+                jdbc_connection_string => "jdbc:oracle:thin:@10.241.98.167:1535/UMARKET"
+                jdbc_user => "AIOPS"
+                jdbc_password => "aiops"
+                schedule => "*/30 * * * *"
+                statement => "select inst_id||','||username||','||status||','||count(*) from gv$session where username is not null and username not in ('AIOPS','SYS','SYSTEM','DBSNMP') group by inst_id,username,status order by username, status"
+                type => "RTR_Session_sec"
+                add_field => {"IP" => "10.241.98.167"}
+        }
+
+######################  asm diskgroup  ###########
+
+        jdbc{
+                jdbc_driver_library => "/etc/logstash/conf.d/jar/ojdbc7.jar"
+                jdbc_driver_class => "Java::oracle.jdbc.driver.OracleDriver"
+                jdbc_connection_string => "jdbc:oracle:thin:@10.241.98.167:1535/UMARKET"
+                jdbc_user => "AIOPS"
+                jdbc_password => "aiops"
+                schedule => "*/30 * * * *"
+                statement => "select name||','||state||','||total_mb/1024||','||free_mb/1024||','||(((total_mb - free_mb)/1024)*100)/(total_mb/1024) pct_USED from v$asm_diskgroup"
+                type => "RTR_asm_disk_pri"
+                add_field => {"IP" => "10.241.98.167"}
+        }
+
+        jdbc{
+                jdbc_driver_library => "/etc/logstash/conf.d/jar/ojdbc7.jar"
+                jdbc_driver_class => "Java::oracle.jdbc.driver.OracleDriver"
+                jdbc_connection_string => "jdbc:oracle:thin:@10.241.98.167:1535/UMARKET"
+                jdbc_user => "AIOPS"
+                jdbc_password => "aiops"
+                schedule => "*/30 * * * *"
+                statement => "select name||','||state||','||total_mb/1024||','||free_mb/1024||','||(((total_mb - free_mb)/1024)*100)/(total_mb/1024) pct_USED from v$asm_diskgroup"
+                type => "RTR_asm_disk_sec"
+                add_field => {"IP" => "10.241.98.167"}
+        }
+
+#################  crt tablespace #############
+        jdbc{
+                jdbc_driver_library => "/etc/logstash/conf.d/jar/ojdbc7.jar"
+                jdbc_driver_class => "Java::oracle.jdbc.driver.OracleDriver"
+                jdbc_connection_string => "jdbc:oracle:thin:@10.241.98.167:1535/UMARKET"
+                jdbc_user => "AIOPS"
+                jdbc_password => "aiops"
+                schedule => "*/30 * * * *"
+                statement_filepath => "/etc/logstash/conf.d/sql/crt_tablespace"
+                type => "RTR_crt_table_pri"
+                add_field => {"IP" => "10.241.98.167"}
+        }
+
+        jdbc{
+                jdbc_driver_library => "/etc/logstash/conf.d/jar/ojdbc7.jar"
+                jdbc_driver_class => "Java::oracle.jdbc.driver.OracleDriver"
+                jdbc_connection_string => "jdbc:oracle:thin:@10.241.98.167:1535/UMARKET"
+                jdbc_user => "AIOPS"
+                jdbc_password => "aiops"
+                schedule => "*/30 * * * *"
+                statement_filepath => "/etc/logstash/conf.d/sql/crt_tablespace"
+                type => "RTR_crt_table_sec"
+                add_field => {"IP" => "10.241.98.167"}
+        }
+
+############### undo Tablespace   #############
+
+        jdbc{
+                jdbc_driver_library => "/etc/logstash/conf.d/jar/ojdbc7.jar"
+                jdbc_driver_class => "Java::oracle.jdbc.driver.OracleDriver"
+                jdbc_connection_string => "jdbc:oracle:thin:@10.241.98.167:1535/UMARKET"
+                jdbc_user => "AIOPS"
+                jdbc_password => "aiops"
+                schedule => "*/30 * * * *"
+                statement_filepath => "/etc/logstash/conf.d/sql/undo_tablespace"
+                type => "RTR_unod_table_pri"
+                add_field => {"IP" => "10.241.98.167"}
+        }
+
+        jdbc{
+                jdbc_driver_library => "/etc/logstash/conf.d/jar/ojdbc7.jar"
+                jdbc_driver_class => "Java::oracle.jdbc.driver.OracleDriver"
+                jdbc_connection_string => "jdbc:oracle:thin:@10.241.98.167:1535/UMARKET"
+                jdbc_user => "AIOPS"
+                jdbc_password => "aiops"
+                schedule => "*/30 * * * *"
+                statement_filepath => "/etc/logstash/conf.d/sql/undo_tablespace"
+                type => "RTR_undo_table_sec"
+                add_field => {"IP" => "10.241.98.167"}
+        }
+
+
+##############   open cursor ##############
+
+        jdbc{
+                jdbc_driver_library => "/etc/logstash/conf.d/jar/ojdbc7.jar"
+                jdbc_driver_class => "Java::oracle.jdbc.driver.OracleDriver"
+                jdbc_connection_string => "jdbc:oracle:thin:@10.241.98.167:1535/UMARKET"
+                jdbc_user => "AIOPS"
+                jdbc_password => "aiops"
+                schedule => "*/30 * * * *"
+                statement_filepath => "/etc/logstash/conf.d/sql/open_cursor_new"
+                type => "RTR_open_cursor_pri"
+                add_field => {"IP" => "10.241.98.167"}
+        }
+
+        jdbc{
+                jdbc_driver_library => "/etc/logstash/conf.d/jar/ojdbc7.jar"
+                jdbc_driver_class => "Java::oracle.jdbc.driver.OracleDriver"
+                jdbc_connection_string => "jdbc:oracle:thin:@10.241.98.167:1535/UMARKET"
+                jdbc_user => "AIOPS"
+                jdbc_password => "aiops"
+                schedule => "*/30 * * * *"
+                statement_filepath => "/etc/logstash/conf.d/sql/open_cursor_new"
+                type => "RTR_open_cursor_sec"
+                add_field => {"IP" => "10.241.98.167"}
+        }
+
+###############  standby status   #############
+
+        jdbc{
+                jdbc_driver_library => "/etc/logstash/conf.d/jar/ojdbc7.jar"
+                jdbc_driver_class => "Java::oracle.jdbc.driver.OracleDriver"
+                jdbc_connection_string => "jdbc:oracle:thin:@10.241.98.167:1535/UMARKET"
+                jdbc_user => "AIOPS"
+                jdbc_password => "aiops"
+                schedule => "*/15 * * * *"
+                statement => "SELECT   a.thread#,  b. last_seq, a.applied_seq, a. last_app_timestamp, b.last_seq-a.applied_seq   ARC_DIFF FROM (SELECT  thread#, MAX(sequence#) applied_seq, MAX(next_time) last_app_timestamp FROM gv$archived_log WHERE applied = 'YES' GROUP BY thread#) a,           (SELECT  thread#, MAX (sequence#) last_seq FROM gv$archived_log GROUP BY thread#) b WHERE a.thread# = b.thread#"
+                type => "RTR_stdby_pri"
+                add_field => {"IP" => "10.241.98.167"}
+        }
+
+        jdbc{
+                jdbc_driver_library => "/etc/logstash/conf.d/jar/ojdbc7.jar"
+                jdbc_driver_class => "Java::oracle.jdbc.driver.OracleDriver"
+                jdbc_connection_string => "jdbc:oracle:thin:@10.241.98.167:1535/UMARKET"
+                jdbc_user => "AIOPS"
+                jdbc_password => "aiops"
+                schedule => "*/15 * * * *"
+                statement => "SELECT   a.thread#,  b. last_seq, a.applied_seq, a. last_app_timestamp, b.last_seq-a.applied_seq   ARC_DIFF FROM (SELECT  thread#, MAX(sequence#) applied_seq, MAX(next_time) last_app_timestamp FROM gv$archived_log WHERE applied = 'YES' GROUP BY thread#) a,           (SELECT  thread#, MAX (sequence#) last_seq FROM gv$archived_log GROUP BY thread#) b WHERE a.thread# = b.thread#"
+                type => "RTR_stdby_sec"
+                add_field => {"IP" => "10.241.98.167"}
+        }
+
+
+
+}
+
+filter{
+
+        mutate {
+        rename => { "thread#" => "thread"
+                    "block#" => "block"
+                    "sequence#" => "sequence"
+                    "serial#" => "serial"
+                    "free%" => "free_pct"
+                }
+        }
+
+        if [type]=~"RTR_Session_pri" or [type]=~"RTR_Session_sec"{
+                    grok {
+                  match => {"inst_id||','||username||','||status||','||count(*)" => "%{NUMBER:inst_id},%{WORD:name},%{WORD:status},%{NUMBER:count}"}
+
+                    }
+                }
+
+        else if [type]=~"RTR_long_running_sec" or [type]=~"RTR_long_running_pri"{
+                grok{
+                        match =>{"s.username||','||s.sid||','||s.serial#||','||s.last_call_et/60||','||q.sql_text" => "%{WORD:username},%{NUMBER:sid},%{NUMBER:serial},%{NUMBER:last_call_et},%{GREEDYDATA:sql_txt}"}
+                        #ONLINEDB,2436,17443,39345.8833333333333333333333333333333333,INSERT /*+ BYPASS_RECURSIVE_CHECK */ INTO \"REPORTER\".\"MSAN_CARD_
+                }
+        }
+        else if [type]=~"RTR_asm_disk_pri" or [type]=~"RTR_asm_disk_sec"{
+                grok{
+                        match =>{"pct_used" => "%{WORD:name},%{WORD:status},%{NUMBER:total_mb},%{NUMBER:free_mb},%{NUMBER:used_pct}"}
+                 }
+        }
+
+        else if [type]=~"RTR_crt_table_pri" or [type]=~"RTR_crt_table_sec"{
+         mutate{
+                convert => {"db_name" => "string"}
+                rename => {"free%" => "free_pct"}
+                convert => {"free_pct" => "float"}
+                }
+        }
+
+        else if [type]=~"RTR_undo_table_pri" or [type]=~"RTR_undo_table_sec"{
+         mutate{
+                convert => {"tablespace_name" => "string"}
+                }
+        }
+
+        else if [type]=~"RTR_open_cursor_pri" or [type]=~"RTR_open_cursor_sec"{
+         mutate{
+                convert => {"status" => "string"}
+                convert => {"username" => "string"}
+
+                }
+        }
+
+        else if [type]=~"RTR_stdby_pri" or [type]=~"RTR_stdby_sec"{
+         mutate{
+                convert => {"thread" => "float"}
+                convert => {"last_app_timestamp" => "string"}
+                }
+        }
+
+        mutate{
+                convert => {"name" => "string"}
+                convert => {"username" => "string"}
+                convert => {"sid" => "float"}
+                convert => {"serial" => "float"}
+                convert => {"last_call_et" => "float"}
+                convert => {"sql_txt" => "string"}
+
+                convert => {"status" => "string"}
+                convert => {"total_mb" => "float"}
+                convert => {"free_mb" => "float"}
+                convert => {"used_pct" => "float"}
+                convert => {"free_pct" => "float"}
+                convert => {"id" => "integer"}
+                convert => {"count" => "integer"}
+                convert => {"freemb" => "float"}
+                convert => {"pct_used" => "float"}
+                convert => {"sizemb" => "float"}
+                convert => {"usagemb" => "float"}
+                }
+
+        ruby{
+             code => "event.set('time_in_sec',event.get('@timestamp').to_i)"
+            }
+        ruby{
+             code => "event.set('randomNumber',(100000000 + (rand(99999999)).to_i))"
+             }
+        mutate{
+              add_field => {"time" => "%{time_in_sec}%{randomNumber}"}
+             }
+
+
+}
+
+
+output{
+        #stdout{codec => rubydebug}
+
+        influxdb
+                {
+                        host => "10.14.162.49"
+                        db => "Prepaid_Apex"
+                        measurement => "%{type}"
+                        allow_time_override => true
+                        max_retries => 3
+                        time_precision => "n"
+                        use_event_fields_for_data_points => true
+                        send_as_tags => ["inst_id","status","IP","username","name","tablespace_name","db_name","machine","osuser","prev_sql_id","thread","serial","sequence","client_process","event","dest_name","process"]
+                        exclude_fields => ["time_in_sec","message","@timestamp","@version","randomNumber","s.username||','||s.sid||','||s.serial#||','||s.last_call_et/60||','||q.sql_text","@time","inst_id||','||username||','||status||','||count(*)"]
+               }
+
+}
+
