@@ -1,0 +1,5213 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 2126,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 2,
+      "panels": [
+        {
+          "columns": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "LsyTlRBnk"
+          },
+          "fontSize": "100%",
+          "gridPos": {
+            "h": 6,
+            "w": 12,
+            "x": 0,
+            "y": 1
+          },
+          "id": 4,
+          "links": [],
+          "scroll": true,
+          "showHeader": true,
+          "sort": {
+            "col": 2,
+            "desc": false
+          },
+          "styles": [
+            {
+              "alias": "Time",
+              "align": "auto",
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "pattern": "Time",
+              "type": "hidden"
+            },
+            {
+              "alias": "User Name",
+              "align": "auto",
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "decimals": 2,
+              "pattern": "name",
+              "thresholds": [],
+              "type": "number",
+              "unit": "short"
+            },
+            {
+              "alias": "COUNT",
+              "align": "auto",
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "mappingType": 1,
+              "pattern": "last",
+              "thresholds": [],
+              "type": "number",
+              "unit": "short"
+            }
+          ],
+          "targets": [
+            {
+              "alias": "$tag_name",
+              "datasource": {
+                "type": "influxdb",
+                "uid": "LsyTlRBnk"
+              },
+              "groupBy": [
+                {
+                  "params": [
+                    "30m"
+                  ],
+                  "type": "time"
+                },
+                {
+                  "params": [
+                    "name"
+                  ],
+                  "type": "tag"
+                },
+                {
+                  "params": [
+                    "null"
+                  ],
+                  "type": "fill"
+                }
+              ],
+              "measurement": "Session",
+              "orderByTime": "ASC",
+              "policy": "default",
+              "query": "SELECT \"inst_id\",\"count\",\"status\" FROM \"session_orafmwpa\" where \"IP\" = '10.5.249.192' AND time>now()-30m GROUP BY \"name\",\"IP\" fill(null)",
+              "rawQuery": true,
+              "refId": "A",
+              "resultFormat": "table",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "count"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [],
+                    "type": "last"
+                  }
+                ]
+              ],
+              "tags": []
+            }
+          ],
+          "timeFrom": "30m",
+          "title": "Session Count ",
+          "transform": "table",
+          "type": "table-old"
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": {
+            "type": "influxdb",
+            "uid": "LsyTlRBnk"
+          },
+          "decimals": 0,
+          "fill": 1,
+          "fillGradient": 0,
+          "gridPos": {
+            "h": 6,
+            "w": 12,
+            "x": 12,
+            "y": 1
+          },
+          "hiddenSeries": false,
+          "id": 6,
+          "legend": {
+            "alignAsTable": true,
+            "avg": true,
+            "current": false,
+            "hideEmpty": true,
+            "hideZero": false,
+            "max": false,
+            "min": false,
+            "rightSide": true,
+            "show": true,
+            "total": true,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "connected",
+          "options": {
+            "alertThreshold": true
+          },
+          "percentage": false,
+          "pluginVersion": "8.3.3",
+          "pointradius": 2,
+          "points": true,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "alias": "$tag_IP : $tag_name",
+              "datasource": {
+                "type": "influxdb",
+                "uid": "LsyTlRBnk"
+              },
+              "groupBy": [
+                {
+                  "params": [
+                    "30m"
+                  ],
+                  "type": "time"
+                },
+                {
+                  "params": [
+                    "name"
+                  ],
+                  "type": "tag"
+                },
+                {
+                  "params": [
+                    "null"
+                  ],
+                  "type": "fill"
+                }
+              ],
+              "measurement": "Session",
+              "orderByTime": "ASC",
+              "policy": "default",
+              "query": "SELECT \"count\",\"status\" FROM \"session_orafmwpa\" where \"IP\" = '10.5.249.192' AND time>now()-30m GROUP BY \"IP\",\"name\"",
+              "rawQuery": true,
+              "refId": "A",
+              "resultFormat": "time_series",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "count"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [],
+                    "type": "last"
+                  }
+                ]
+              ],
+              "tags": []
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": "30m",
+          "timeRegions": [],
+          "title": "Session Count ",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "mode": "time",
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "logBase": 1,
+              "show": true
+            },
+            {
+              "format": "short",
+              "logBase": 1,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false
+          }
+        },
+        {
+          "columns": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "LsyTlRBnk"
+          },
+          "fontSize": "100%",
+          "gridPos": {
+            "h": 6,
+            "w": 12,
+            "x": 0,
+            "y": 7
+          },
+          "id": 30,
+          "links": [],
+          "scroll": true,
+          "showHeader": true,
+          "sort": {
+            "col": 2,
+            "desc": false
+          },
+          "styles": [
+            {
+              "alias": "Time",
+              "align": "auto",
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "pattern": "Time",
+              "type": "hidden"
+            },
+            {
+              "alias": "User Name",
+              "align": "auto",
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "decimals": 2,
+              "pattern": "name",
+              "thresholds": [],
+              "type": "number",
+              "unit": "short"
+            },
+            {
+              "alias": "COUNT",
+              "align": "auto",
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "mappingType": 1,
+              "pattern": "last",
+              "thresholds": [],
+              "type": "number",
+              "unit": "short"
+            }
+          ],
+          "targets": [
+            {
+              "alias": "$tag_name",
+              "datasource": {
+                "type": "influxdb",
+                "uid": "LsyTlRBnk"
+              },
+              "groupBy": [
+                {
+                  "params": [
+                    "30m"
+                  ],
+                  "type": "time"
+                },
+                {
+                  "params": [
+                    "name"
+                  ],
+                  "type": "tag"
+                },
+                {
+                  "params": [
+                    "null"
+                  ],
+                  "type": "fill"
+                }
+              ],
+              "measurement": "Session",
+              "orderByTime": "ASC",
+              "policy": "default",
+              "query": "SELECT \"inst_id\",\"count\",\"status\" FROM \"session_orafmwpa\" where  \"IP\" = '10.5.249.193' AND time>now()-30m GROUP BY \"name\",\"IP\" fill(null)\n",
+              "rawQuery": true,
+              "refId": "A",
+              "resultFormat": "table",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "count"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [],
+                    "type": "last"
+                  }
+                ]
+              ],
+              "tags": []
+            }
+          ],
+          "timeFrom": "30m",
+          "title": "Session Count ",
+          "transform": "table",
+          "type": "table-old"
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": {
+            "type": "influxdb",
+            "uid": "LsyTlRBnk"
+          },
+          "decimals": 0,
+          "fill": 1,
+          "fillGradient": 0,
+          "gridPos": {
+            "h": 6,
+            "w": 12,
+            "x": 12,
+            "y": 7
+          },
+          "hiddenSeries": false,
+          "id": 28,
+          "legend": {
+            "alignAsTable": true,
+            "avg": true,
+            "current": false,
+            "hideEmpty": true,
+            "hideZero": false,
+            "max": false,
+            "min": false,
+            "rightSide": true,
+            "show": true,
+            "total": true,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "connected",
+          "options": {
+            "alertThreshold": true
+          },
+          "percentage": false,
+          "pluginVersion": "8.3.3",
+          "pointradius": 2,
+          "points": true,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "alias": "$tag_IP: $tag_name",
+              "datasource": {
+                "type": "influxdb",
+                "uid": "LsyTlRBnk"
+              },
+              "groupBy": [
+                {
+                  "params": [
+                    "30m"
+                  ],
+                  "type": "time"
+                },
+                {
+                  "params": [
+                    "name"
+                  ],
+                  "type": "tag"
+                },
+                {
+                  "params": [
+                    "null"
+                  ],
+                  "type": "fill"
+                }
+              ],
+              "measurement": "Session",
+              "orderByTime": "ASC",
+              "policy": "default",
+              "query": "SELECT \"count\",\"status\" FROM \"session_orafmwpa\" where  \"IP\" = '10.5.249.193' AND  time>now()-30m GROUP BY \"IP\",\"name\"",
+              "rawQuery": true,
+              "refId": "A",
+              "resultFormat": "time_series",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "count"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [],
+                    "type": "last"
+                  }
+                ]
+              ],
+              "tags": []
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": "30m",
+          "timeRegions": [],
+          "title": "Session Count ",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "mode": "time",
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "logBase": 1,
+              "show": true
+            },
+            {
+              "format": "short",
+              "logBase": 1,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false
+          }
+        },
+        {
+          "activePatternIndex": 2,
+          "datasource": {
+            "type": "influxdb",
+            "uid": "LsyTlRBnk"
+          },
+          "defaultPattern": {
+            "bgColors": "green|orange|red",
+            "bgColors_overrides": "0->green|2->red|1->yellow",
+            "clickable_cells_link": "",
+            "col_name": "Value",
+            "decimals": 2,
+            "defaultBGColor": "",
+            "defaultTextColor": "",
+            "delimiter": ".",
+            "displayTemplate": "_value_",
+            "enable_bgColor": false,
+            "enable_bgColor_overrides": false,
+            "enable_clickable_cells": false,
+            "enable_textColor": false,
+            "enable_textColor_overrides": false,
+            "enable_time_based_thresholds": false,
+            "enable_transform": false,
+            "enable_transform_overrides": false,
+            "filter": {
+              "value_above": "",
+              "value_below": ""
+            },
+            "format": "none",
+            "name": "Default Pattern",
+            "null_color": "darkred",
+            "null_textcolor": "black",
+            "null_value": "No data",
+            "pattern": "*",
+            "row_col_wrapper": "_",
+            "row_name": "_series_",
+            "textColors": "red|orange|green",
+            "textColors_overrides": "0->red|2->green|1->yellow",
+            "thresholds": "70,90",
+            "time_based_thresholds": [],
+            "tooltipTemplate": "Series : _series_ <br/>Row Name : _row_name_ <br/>Col Name : _col_name_ <br/>Value : _value_",
+            "transform_values": "_value_|_value_|_value_",
+            "transform_values_overrides": "0->down|1->up",
+            "valueName": "avg"
+          },
+          "default_title_for_rows": "Thread",
+          "gridPos": {
+            "h": 6,
+            "w": 12,
+            "x": 0,
+            "y": 13
+          },
+          "id": 26,
+          "links": [],
+          "patterns": [
+            {
+              "bgColors": "green|orange|red",
+              "bgColors_overrides": "0->green|2->red|1->yellow",
+              "clickable_cells_link": "",
+              "col_name": "LAST SEQUENCE",
+              "decimals": "0",
+              "defaultBGColor": "",
+              "defaultTextColor": "",
+              "delimiter": "|",
+              "displayTemplate": "_value_",
+              "enable_bgColor": false,
+              "enable_bgColor_overrides": false,
+              "enable_clickable_cells": false,
+              "enable_textColor": false,
+              "enable_textColor_overrides": false,
+              "enable_time_based_thresholds": false,
+              "enable_transform": false,
+              "enable_transform_overrides": false,
+              "filter": {
+                "value_above": "",
+                "value_below": ""
+              },
+              "format": "none",
+              "name": "LAST SEQUENCE",
+              "null_color": "darkred",
+              "null_textcolor": "black",
+              "null_value": "No data",
+              "pattern": "^LAST.*",
+              "row_col_wrapper": "_",
+              "row_name": "_1_",
+              "textColors": "red|orange|green",
+              "textColors_overrides": "0->red|2->green|1->yellow",
+              "thresholds": "70,90",
+              "time_based_thresholds": [],
+              "tooltipTemplate": "Series : _series_ <br/>Row Name : _row_name_ <br/>Col Name : _col_name_ <br/>Value : _value_",
+              "transform_values": "_value_|_value_|_value_",
+              "transform_values_overrides": "0->down|1->up",
+              "valueName": "current"
+            },
+            {
+              "bgColors": "green|orange|red",
+              "bgColors_overrides": "0->green|2->red|1->yellow",
+              "clickable_cells_link": "",
+              "col_name": "APPLIED SEQUENCE",
+              "decimals": "0",
+              "defaultBGColor": "",
+              "defaultTextColor": "",
+              "delimiter": "|",
+              "displayTemplate": "_value_",
+              "enable_bgColor": false,
+              "enable_bgColor_overrides": false,
+              "enable_clickable_cells": false,
+              "enable_textColor": false,
+              "enable_textColor_overrides": false,
+              "enable_time_based_thresholds": false,
+              "enable_transform": false,
+              "enable_transform_overrides": false,
+              "filter": {
+                "value_above": "",
+                "value_below": ""
+              },
+              "format": "none",
+              "name": "APPLIED SEQUENCE",
+              "null_color": "darkred",
+              "null_textcolor": "black",
+              "null_value": "No data",
+              "pattern": "^APPLIED.*",
+              "row_col_wrapper": "_",
+              "row_name": "_1_",
+              "textColors": "red|orange|green",
+              "textColors_overrides": "0->red|2->green|1->yellow",
+              "thresholds": "70,90",
+              "time_based_thresholds": [],
+              "tooltipTemplate": "Series : _series_ <br/>Row Name : _row_name_ <br/>Col Name : _col_name_ <br/>Value : _value_",
+              "transform_values": "_value_|_value_|_value_",
+              "transform_values_overrides": "0->down|1->up",
+              "valueName": "current"
+            },
+            {
+              "bgColors": "red|orange|green",
+              "bgColors_overrides": "0->green|2->red|1->yellow",
+              "clickable_cells_link": "",
+              "col_name": "ARC DIFFERENCE",
+              "decimals": "0",
+              "defaultBGColor": "",
+              "defaultTextColor": "",
+              "delimiter": "|",
+              "displayTemplate": "_value_",
+              "enable_bgColor": true,
+              "enable_bgColor_overrides": false,
+              "enable_clickable_cells": false,
+              "enable_textColor": false,
+              "enable_textColor_overrides": false,
+              "enable_time_based_thresholds": false,
+              "enable_transform": false,
+              "enable_transform_overrides": false,
+              "filter": {
+                "value_above": "",
+                "value_below": ""
+              },
+              "format": "none",
+              "name": "ARC DIFFERENCE",
+              "null_color": "darkred",
+              "null_textcolor": "black",
+              "null_value": "No data",
+              "pattern": "^ARC.*",
+              "row_col_wrapper": "_",
+              "row_name": "_1_",
+              "textColors": "red|orange|green",
+              "textColors_overrides": "0->red|2->green|1->yellow",
+              "thresholds": "0",
+              "time_based_thresholds": [],
+              "tooltipTemplate": "Series : _series_ <br/>Row Name : _row_name_ <br/>Col Name : _col_name_ <br/>Value : _value_",
+              "transform_values": "_value_|_value_|_value_",
+              "transform_values_overrides": "0->down|1->up",
+              "valueName": "current"
+            }
+          ],
+          "row_col_wrapper": "_",
+          "sorting_props": {
+            "col_index": 2,
+            "direction": "desc"
+          },
+          "targets": [
+            {
+              "alias": "LAST|$tag_thread ($tag_IP)",
+              "datasource": {
+                "type": "influxdb",
+                "uid": "LsyTlRBnk"
+              },
+              "groupBy": [
+                {
+                  "params": [
+                    "$__interval"
+                  ],
+                  "type": "time"
+                },
+                {
+                  "params": [
+                    "thread"
+                  ],
+                  "type": "tag"
+                },
+                {
+                  "params": [
+                    "IP"
+                  ],
+                  "type": "tag"
+                }
+              ],
+              "measurement": "RTRSTD_stdby_pri",
+              "orderByTime": "ASC",
+              "policy": "default",
+              "query": "SELECT last(\"last_seq\") FROM \"stdby_orafmwpa\" WHERE \"IP\" = '10.5.249.192' AND $timeFilter GROUP BY time($__interval), \"thread\", \"IP\"",
+              "rawQuery": true,
+              "refId": "A",
+              "resultFormat": "time_series",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "last_seq"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [],
+                    "type": "last"
+                  }
+                ]
+              ],
+              "tags": []
+            },
+            {
+              "alias": "APPLIED|$tag_thread ($tag_IP)",
+              "datasource": {
+                "type": "influxdb",
+                "uid": "LsyTlRBnk"
+              },
+              "groupBy": [
+                {
+                  "params": [
+                    "$__interval"
+                  ],
+                  "type": "time"
+                },
+                {
+                  "params": [
+                    "thread"
+                  ],
+                  "type": "tag"
+                },
+                {
+                  "params": [
+                    "IP"
+                  ],
+                  "type": "tag"
+                }
+              ],
+              "measurement": "RTRSTD_stdby_pri",
+              "orderByTime": "ASC",
+              "policy": "default",
+              "query": "SELECT last(\"applied_seq\") FROM \"stdby_orafmwpa\" WHERE  \"IP\" = '10.5.249.192' AND $timeFilter GROUP BY time($__interval), \"thread\", \"IP\"",
+              "rawQuery": true,
+              "refId": "B",
+              "resultFormat": "time_series",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "applied_seq"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [],
+                    "type": "last"
+                  }
+                ]
+              ],
+              "tags": []
+            },
+            {
+              "alias": "ARC|$tag_thread ($tag_IP)",
+              "datasource": {
+                "type": "influxdb",
+                "uid": "LsyTlRBnk"
+              },
+              "groupBy": [
+                {
+                  "params": [
+                    "$__interval"
+                  ],
+                  "type": "time"
+                },
+                {
+                  "params": [
+                    "thread"
+                  ],
+                  "type": "tag"
+                },
+                {
+                  "params": [
+                    "IP"
+                  ],
+                  "type": "tag"
+                }
+              ],
+              "measurement": "RTRSTD_stdby_pri",
+              "orderByTime": "ASC",
+              "policy": "default",
+              "query": "SELECT last(\"arc_diff\") FROM \"stdby_orafmwpa\" WHERE \"IP\" = '10.5.249.192' AND $timeFilter GROUP BY time($__interval), \"thread\", \"IP\"",
+              "rawQuery": true,
+              "refId": "C",
+              "resultFormat": "time_series",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "arc_diff"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [],
+                    "type": "last"
+                  }
+                ]
+              ],
+              "tags": []
+            }
+          ],
+          "timeFrom": "15m",
+          "title": "DataBase Standby Status ",
+          "type": "yesoreyeram-boomtable-panel"
+        },
+        {
+          "activePatternIndex": 2,
+          "datasource": {
+            "type": "influxdb",
+            "uid": "LsyTlRBnk"
+          },
+          "defaultPattern": {
+            "bgColors": "green|orange|red",
+            "bgColors_overrides": "0->green|2->red|1->yellow",
+            "clickable_cells_link": "",
+            "col_name": "Value",
+            "decimals": 2,
+            "defaultBGColor": "",
+            "defaultTextColor": "",
+            "delimiter": ".",
+            "displayTemplate": "_value_",
+            "enable_bgColor": false,
+            "enable_bgColor_overrides": false,
+            "enable_clickable_cells": false,
+            "enable_textColor": false,
+            "enable_textColor_overrides": false,
+            "enable_time_based_thresholds": false,
+            "enable_transform": false,
+            "enable_transform_overrides": false,
+            "filter": {
+              "value_above": "",
+              "value_below": ""
+            },
+            "format": "none",
+            "name": "Default Pattern",
+            "null_color": "darkred",
+            "null_textcolor": "black",
+            "null_value": "No data",
+            "pattern": "*",
+            "row_col_wrapper": "_",
+            "row_name": "_series_",
+            "textColors": "red|orange|green",
+            "textColors_overrides": "0->red|2->green|1->yellow",
+            "thresholds": "70,90",
+            "time_based_thresholds": [],
+            "tooltipTemplate": "Series : _series_ <br/>Row Name : _row_name_ <br/>Col Name : _col_name_ <br/>Value : _value_",
+            "transform_values": "_value_|_value_|_value_",
+            "transform_values_overrides": "0->down|1->up",
+            "valueName": "avg"
+          },
+          "default_title_for_rows": "Thread",
+          "gridPos": {
+            "h": 6,
+            "w": 12,
+            "x": 12,
+            "y": 13
+          },
+          "id": 24,
+          "links": [],
+          "patterns": [
+            {
+              "bgColors": "green|orange|red",
+              "bgColors_overrides": "0->green|2->red|1->yellow",
+              "clickable_cells_link": "",
+              "col_name": "LAST SEQUENCE",
+              "decimals": "0",
+              "defaultBGColor": "",
+              "defaultTextColor": "",
+              "delimiter": "|",
+              "displayTemplate": "_value_",
+              "enable_bgColor": false,
+              "enable_bgColor_overrides": false,
+              "enable_clickable_cells": false,
+              "enable_textColor": false,
+              "enable_textColor_overrides": false,
+              "enable_time_based_thresholds": false,
+              "enable_transform": false,
+              "enable_transform_overrides": false,
+              "filter": {
+                "value_above": "",
+                "value_below": ""
+              },
+              "format": "none",
+              "name": "LAST SEQUENCE",
+              "null_color": "darkred",
+              "null_textcolor": "black",
+              "null_value": "No data",
+              "pattern": "^LAST.*",
+              "row_col_wrapper": "_",
+              "row_name": "_1_",
+              "textColors": "red|orange|green",
+              "textColors_overrides": "0->red|2->green|1->yellow",
+              "thresholds": "70,90",
+              "time_based_thresholds": [],
+              "tooltipTemplate": "Series : _series_ <br/>Row Name : _row_name_ <br/>Col Name : _col_name_ <br/>Value : _value_",
+              "transform_values": "_value_|_value_|_value_",
+              "transform_values_overrides": "0->down|1->up",
+              "valueName": "current"
+            },
+            {
+              "bgColors": "green|orange|red",
+              "bgColors_overrides": "0->green|2->red|1->yellow",
+              "clickable_cells_link": "",
+              "col_name": "APPLIED SEQUENCE",
+              "decimals": "0",
+              "defaultBGColor": "",
+              "defaultTextColor": "",
+              "delimiter": "|",
+              "displayTemplate": "_value_",
+              "enable_bgColor": false,
+              "enable_bgColor_overrides": false,
+              "enable_clickable_cells": false,
+              "enable_textColor": false,
+              "enable_textColor_overrides": false,
+              "enable_time_based_thresholds": false,
+              "enable_transform": false,
+              "enable_transform_overrides": false,
+              "filter": {
+                "value_above": "",
+                "value_below": ""
+              },
+              "format": "none",
+              "name": "APPLIED SEQUENCE",
+              "null_color": "darkred",
+              "null_textcolor": "black",
+              "null_value": "No data",
+              "pattern": "^APPLIED.*",
+              "row_col_wrapper": "_",
+              "row_name": "_1_",
+              "textColors": "red|orange|green",
+              "textColors_overrides": "0->red|2->green|1->yellow",
+              "thresholds": "70,90",
+              "time_based_thresholds": [],
+              "tooltipTemplate": "Series : _series_ <br/>Row Name : _row_name_ <br/>Col Name : _col_name_ <br/>Value : _value_",
+              "transform_values": "_value_|_value_|_value_",
+              "transform_values_overrides": "0->down|1->up",
+              "valueName": "current"
+            },
+            {
+              "bgColors": "red|orange|green",
+              "bgColors_overrides": "0->green|2->red|1->yellow",
+              "clickable_cells_link": "",
+              "col_name": "ARC DIFFERENCE",
+              "decimals": "0",
+              "defaultBGColor": "",
+              "defaultTextColor": "",
+              "delimiter": "|",
+              "displayTemplate": "_value_",
+              "enable_bgColor": true,
+              "enable_bgColor_overrides": false,
+              "enable_clickable_cells": false,
+              "enable_textColor": false,
+              "enable_textColor_overrides": false,
+              "enable_time_based_thresholds": false,
+              "enable_transform": false,
+              "enable_transform_overrides": false,
+              "filter": {
+                "value_above": "",
+                "value_below": ""
+              },
+              "format": "none",
+              "name": "ARC DIFFERENCE",
+              "null_color": "darkred",
+              "null_textcolor": "black",
+              "null_value": "No data",
+              "pattern": "^ARC.*",
+              "row_col_wrapper": "_",
+              "row_name": "_1_",
+              "textColors": "red|orange|green",
+              "textColors_overrides": "0->red|2->green|1->yellow",
+              "thresholds": "0",
+              "time_based_thresholds": [],
+              "tooltipTemplate": "Series : _series_ <br/>Row Name : _row_name_ <br/>Col Name : _col_name_ <br/>Value : _value_",
+              "transform_values": "_value_|_value_|_value_",
+              "transform_values_overrides": "0->down|1->up",
+              "valueName": "current"
+            }
+          ],
+          "row_col_wrapper": "_",
+          "sorting_props": {
+            "col_index": 2,
+            "direction": "desc"
+          },
+          "targets": [
+            {
+              "alias": "LAST|$tag_thread ($tag_IP)",
+              "datasource": {
+                "type": "influxdb",
+                "uid": "LsyTlRBnk"
+              },
+              "groupBy": [
+                {
+                  "params": [
+                    "$__interval"
+                  ],
+                  "type": "time"
+                },
+                {
+                  "params": [
+                    "thread"
+                  ],
+                  "type": "tag"
+                },
+                {
+                  "params": [
+                    "IP"
+                  ],
+                  "type": "tag"
+                }
+              ],
+              "measurement": "RTRSTD_stdby_pri",
+              "orderByTime": "ASC",
+              "policy": "default",
+              "query": "SELECT last(\"last_seq\") FROM \"stdby_orafmwpa\" WHERE \"IP\" = '10.5.249.193' AND $timeFilter GROUP BY time($__interval), \"thread\", \"IP\"",
+              "rawQuery": true,
+              "refId": "A",
+              "resultFormat": "time_series",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "last_seq"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [],
+                    "type": "last"
+                  }
+                ]
+              ],
+              "tags": []
+            },
+            {
+              "alias": "APPLIED|$tag_thread ($tag_IP)",
+              "datasource": {
+                "type": "influxdb",
+                "uid": "LsyTlRBnk"
+              },
+              "groupBy": [
+                {
+                  "params": [
+                    "$__interval"
+                  ],
+                  "type": "time"
+                },
+                {
+                  "params": [
+                    "thread"
+                  ],
+                  "type": "tag"
+                },
+                {
+                  "params": [
+                    "IP"
+                  ],
+                  "type": "tag"
+                }
+              ],
+              "measurement": "RTR_stdby_sec",
+              "orderByTime": "ASC",
+              "policy": "default",
+              "query": "SELECT last(\"applied_seq\") FROM \"stdby_orafmwpa\" WHERE \"IP\" = '10.5.249.193' AND $timeFilter GROUP BY time($__interval), \"thread\", \"IP\"",
+              "rawQuery": true,
+              "refId": "B",
+              "resultFormat": "time_series",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "applied_seq"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [],
+                    "type": "last"
+                  }
+                ]
+              ],
+              "tags": []
+            },
+            {
+              "alias": "ARC|$tag_thread ($tag_IP)",
+              "datasource": {
+                "type": "influxdb",
+                "uid": "LsyTlRBnk"
+              },
+              "groupBy": [
+                {
+                  "params": [
+                    "$__interval"
+                  ],
+                  "type": "time"
+                },
+                {
+                  "params": [
+                    "thread"
+                  ],
+                  "type": "tag"
+                },
+                {
+                  "params": [
+                    "IP"
+                  ],
+                  "type": "tag"
+                }
+              ],
+              "measurement": "RTR_stdby_sec",
+              "orderByTime": "ASC",
+              "policy": "default",
+              "query": "SELECT last(\"arc_diff\") FROM \"stdby_orafmwpa\" WHERE \"IP\" = '10.5.249.193' AND $timeFilter GROUP BY time($__interval), \"thread\", \"IP\"",
+              "rawQuery": true,
+              "refId": "C",
+              "resultFormat": "time_series",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "arc_diff"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [],
+                    "type": "last"
+                  }
+                ]
+              ],
+              "tags": []
+            }
+          ],
+          "timeFrom": "15m",
+          "title": "DataBase Standby Status ",
+          "type": "yesoreyeram-boomtable-panel"
+        },
+        {
+          "columns": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "LsyTlRBnk"
+          },
+          "fontSize": "100%",
+          "gridPos": {
+            "h": 6,
+            "w": 12,
+            "x": 0,
+            "y": 19
+          },
+          "id": 22,
+          "links": [
+            {
+              "title": "select name||','||state||','||total_mb/1024||','||free_mb/1024||','||(((total_mb - free_mb)/1024)*100)/(total_mb/1024) pct_USED from v$asm_diskgroup  OR  SELECT name group_name, state state, type  type, total_mb/1024  total_gb, (total_mb/1024 - free_mb/1024)  used_gb, ROUND((1- (free_mb / total_mb))*100, 2)  pct_used FROM v$asm_diskgroup ORDER BY name",
+              "url": "/"
+            }
+          ],
+          "scroll": true,
+          "showHeader": true,
+          "sort": {
+            "col": 8,
+            "desc": true
+          },
+          "styles": [
+            {
+              "$$hashKey": "object:287",
+              "alias": "Time",
+              "align": "auto",
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "pattern": "Time",
+              "type": "hidden"
+            },
+            {
+              "$$hashKey": "object:288",
+              "alias": "FREE SPACE",
+              "align": "auto",
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "pattern": "free_mb",
+              "thresholds": [],
+              "type": "number",
+              "unit": "decgbytes"
+            },
+            {
+              "$$hashKey": "object:289",
+              "alias": "NAME",
+              "align": "auto",
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 2,
+              "mappingType": 1,
+              "pattern": "name",
+              "thresholds": [],
+              "type": "number",
+              "unit": "short"
+            },
+            {
+              "$$hashKey": "object:290",
+              "alias": "",
+              "align": "auto",
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 2,
+              "mappingType": 1,
+              "pattern": "pct_used",
+              "thresholds": [],
+              "type": "hidden",
+              "unit": "short"
+            },
+            {
+              "$$hashKey": "object:291",
+              "alias": "TOTAL",
+              "align": "auto",
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 2,
+              "mappingType": 1,
+              "pattern": "total_mb",
+              "thresholds": [],
+              "type": "number",
+              "unit": "decgbytes"
+            },
+            {
+              "$$hashKey": "object:292",
+              "alias": "",
+              "align": "auto",
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 2,
+              "mappingType": 1,
+              "pattern": "type",
+              "thresholds": [],
+              "type": "hidden",
+              "unit": "short"
+            },
+            {
+              "$$hashKey": "object:293",
+              "alias": "USED %",
+              "align": "auto",
+              "colorMode": "row",
+              "colors": [
+                "rgba(50, 172, 45, 0.97)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(245, 54, 54, 0.9)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 2,
+              "mappingType": 1,
+              "pattern": "used_pct",
+              "thresholds": [
+                "80",
+                "90"
+              ],
+              "type": "number",
+              "unit": "short"
+            }
+          ],
+          "targets": [
+            {
+              "alias": "",
+              "datasource": {
+                "type": "influxdb",
+                "uid": "LsyTlRBnk"
+              },
+              "groupBy": [
+                {
+                  "params": [
+                    "$__interval"
+                  ],
+                  "type": "time"
+                },
+                {
+                  "params": [
+                    "name"
+                  ],
+                  "type": "tag"
+                },
+                {
+                  "params": [
+                    "IP"
+                  ],
+                  "type": "tag"
+                }
+              ],
+              "measurement": "RTRSTD_asm_disk_pri",
+              "orderByTime": "ASC",
+              "policy": "default",
+              "query": "SELECT * FROM \"asm_disk_orafmwpa\" where \"IP\" = '10.5.249.192' AND time>now()-30m",
+              "rawQuery": true,
+              "refId": "C",
+              "resultFormat": "table",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "used_pct"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [],
+                    "type": "last"
+                  }
+                ]
+              ],
+              "tags": []
+            }
+          ],
+          "timeFrom": "30m",
+          "title": "DiskGroup ",
+          "transform": "table",
+          "type": "table-old"
+        },
+        {
+          "columns": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "LsyTlRBnk"
+          },
+          "fontSize": "100%",
+          "gridPos": {
+            "h": 6,
+            "w": 12,
+            "x": 12,
+            "y": 19
+          },
+          "id": 20,
+          "links": [
+            {
+              "title": "select name||','||state||','||total_mb/1024||','||free_mb/1024||','||(((total_mb - free_mb)/1024)*100)/(total_mb/1024) pct_USED from v$asm_diskgroup  OR  SELECT name group_name, state state, type  type, total_mb/1024  total_gb, (total_mb/1024 - free_mb/1024)  used_gb, ROUND((1- (free_mb / total_mb))*100, 2)  pct_used FROM v$asm_diskgroup ORDER BY name",
+              "url": "/"
+            }
+          ],
+          "scroll": true,
+          "showHeader": true,
+          "sort": {
+            "col": 8,
+            "desc": true
+          },
+          "styles": [
+            {
+              "alias": "Time",
+              "align": "auto",
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "pattern": "Time",
+              "type": "hidden"
+            },
+            {
+              "alias": "FREE SPACE",
+              "align": "auto",
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "pattern": "free_mb",
+              "thresholds": [],
+              "type": "number",
+              "unit": "decgbytes"
+            },
+            {
+              "alias": "NAME",
+              "align": "auto",
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 2,
+              "mappingType": 1,
+              "pattern": "name",
+              "thresholds": [],
+              "type": "number",
+              "unit": "short"
+            },
+            {
+              "alias": "",
+              "align": "auto",
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 2,
+              "mappingType": 1,
+              "pattern": "pct_used",
+              "thresholds": [],
+              "type": "hidden",
+              "unit": "short"
+            },
+            {
+              "alias": "TOTAL",
+              "align": "auto",
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 2,
+              "mappingType": 1,
+              "pattern": "total_mb",
+              "thresholds": [],
+              "type": "number",
+              "unit": "decgbytes"
+            },
+            {
+              "alias": "",
+              "align": "auto",
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 2,
+              "mappingType": 1,
+              "pattern": "type",
+              "thresholds": [],
+              "type": "hidden",
+              "unit": "short"
+            },
+            {
+              "alias": "USED %",
+              "align": "auto",
+              "colorMode": "row",
+              "colors": [
+                "rgba(50, 172, 45, 0.97)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(245, 54, 54, 0.9)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 2,
+              "mappingType": 1,
+              "pattern": "used_pct",
+              "thresholds": [
+                "80",
+                "90"
+              ],
+              "type": "number",
+              "unit": "short"
+            }
+          ],
+          "targets": [
+            {
+              "alias": "",
+              "datasource": {
+                "type": "influxdb",
+                "uid": "LsyTlRBnk"
+              },
+              "groupBy": [
+                {
+                  "params": [
+                    "$__interval"
+                  ],
+                  "type": "time"
+                },
+                {
+                  "params": [
+                    "name"
+                  ],
+                  "type": "tag"
+                },
+                {
+                  "params": [
+                    "IP"
+                  ],
+                  "type": "tag"
+                }
+              ],
+              "measurement": "RTRSTD_asm_disk_pri",
+              "orderByTime": "ASC",
+              "policy": "default",
+              "query": "SELECT * FROM \"asm_disk_orafmwpa\" where \"IP\" = '10.5.249.193' AND time>now()-30m",
+              "rawQuery": true,
+              "refId": "C",
+              "resultFormat": "table",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "used_pct"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [],
+                    "type": "last"
+                  }
+                ]
+              ],
+              "tags": []
+            }
+          ],
+          "timeFrom": "30m",
+          "title": "DiskGroup  ",
+          "transform": "table",
+          "type": "table-old"
+        },
+        {
+          "columns": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "LsyTlRBnk"
+          },
+          "fontSize": "100%",
+          "gridPos": {
+            "h": 4,
+            "w": 12,
+            "x": 0,
+            "y": 25
+          },
+          "id": 16,
+          "links": [],
+          "scroll": true,
+          "showHeader": true,
+          "sort": {
+            "col": 5,
+            "desc": false
+          },
+          "styles": [
+            {
+              "alias": "Time",
+              "align": "auto",
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "pattern": "Time",
+              "type": "hidden"
+            },
+            {
+              "alias": "Free MB",
+              "align": "auto",
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "decimals": 2,
+              "pattern": "freemb",
+              "thresholds": [],
+              "type": "number",
+              "unit": "none"
+            },
+            {
+              "alias": "USED %",
+              "align": "auto",
+              "colorMode": "row",
+              "colors": [
+                "rgba(50, 172, 45, 0.97)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(245, 54, 54, 0.9)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 2,
+              "mappingType": 1,
+              "pattern": "pct_used",
+              "thresholds": [
+                "60",
+                "90"
+              ],
+              "type": "number",
+              "unit": "percent"
+            },
+            {
+              "alias": "TOTAL MB",
+              "align": "auto",
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 2,
+              "mappingType": 1,
+              "pattern": "sizemb",
+              "thresholds": [],
+              "type": "number",
+              "unit": "none"
+            },
+            {
+              "alias": "NAME",
+              "align": "auto",
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 2,
+              "mappingType": 1,
+              "pattern": "tablespace_name",
+              "thresholds": [],
+              "type": "string",
+              "unit": "short"
+            },
+            {
+              "alias": "Used MB",
+              "align": "auto",
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 2,
+              "mappingType": 1,
+              "pattern": "usagemb",
+              "thresholds": [],
+              "type": "number",
+              "unit": "none"
+            }
+          ],
+          "targets": [
+            {
+              "datasource": {
+                "type": "influxdb",
+                "uid": "LsyTlRBnk"
+              },
+              "groupBy": [
+                {
+                  "params": [
+                    "$__interval"
+                  ],
+                  "type": "time"
+                },
+                {
+                  "params": [
+                    "IP1"
+                  ],
+                  "type": "tag"
+                },
+                {
+                  "params": [
+                    "null"
+                  ],
+                  "type": "fill"
+                }
+              ],
+              "measurement": "undo_tablespace",
+              "orderByTime": "ASC",
+              "policy": "default",
+              "query": "select * from undo_table_orafmwpa where \"IP\" = '10.5.249.192' AND time>now()-30m group by \"IP\"",
+              "rawQuery": true,
+              "refId": "A",
+              "resultFormat": "table",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "value"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [],
+                    "type": "mean"
+                  }
+                ]
+              ],
+              "tags": []
+            }
+          ],
+          "title": "UNDO TableSpace ",
+          "transform": "table",
+          "type": "table-old"
+        },
+        {
+          "columns": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "LsyTlRBnk"
+          },
+          "fontSize": "100%",
+          "gridPos": {
+            "h": 4,
+            "w": 12,
+            "x": 12,
+            "y": 25
+          },
+          "id": 18,
+          "links": [],
+          "scroll": true,
+          "showHeader": true,
+          "sort": {
+            "col": 5,
+            "desc": false
+          },
+          "styles": [
+            {
+              "$$hashKey": "object:314",
+              "alias": "Time",
+              "align": "auto",
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "pattern": "Time",
+              "type": "hidden"
+            },
+            {
+              "$$hashKey": "object:315",
+              "alias": "Free MB",
+              "align": "auto",
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "decimals": 2,
+              "pattern": "freemb",
+              "thresholds": [],
+              "type": "number",
+              "unit": "none"
+            },
+            {
+              "$$hashKey": "object:316",
+              "alias": "USED %",
+              "align": "auto",
+              "colorMode": "row",
+              "colors": [
+                "rgba(50, 172, 45, 0.97)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(245, 54, 54, 0.9)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 2,
+              "mappingType": 1,
+              "pattern": "pct_used",
+              "thresholds": [
+                "60",
+                "90"
+              ],
+              "type": "number",
+              "unit": "percent"
+            },
+            {
+              "$$hashKey": "object:317",
+              "alias": "TOTAL MB",
+              "align": "auto",
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 2,
+              "mappingType": 1,
+              "pattern": "sizemb",
+              "thresholds": [],
+              "type": "number",
+              "unit": "none"
+            },
+            {
+              "$$hashKey": "object:318",
+              "alias": "NAME",
+              "align": "auto",
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 2,
+              "mappingType": 1,
+              "pattern": "tablespace_name",
+              "thresholds": [],
+              "type": "string",
+              "unit": "short"
+            },
+            {
+              "$$hashKey": "object:319",
+              "alias": "Used MB",
+              "align": "auto",
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 2,
+              "mappingType": 1,
+              "pattern": "usagemb",
+              "thresholds": [],
+              "type": "number",
+              "unit": "none"
+            },
+            {
+              "$$hashKey": "object:393",
+              "alias": "",
+              "align": "auto",
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 2,
+              "mappingType": 1,
+              "pattern": "IP1",
+              "thresholds": [],
+              "type": "hidden",
+              "unit": "short"
+            }
+          ],
+          "targets": [
+            {
+              "datasource": {
+                "type": "influxdb",
+                "uid": "LsyTlRBnk"
+              },
+              "groupBy": [
+                {
+                  "params": [
+                    "$__interval"
+                  ],
+                  "type": "time"
+                },
+                {
+                  "params": [
+                    "IP1"
+                  ],
+                  "type": "tag"
+                },
+                {
+                  "params": [
+                    "null"
+                  ],
+                  "type": "fill"
+                }
+              ],
+              "measurement": "undo_tablespace",
+              "orderByTime": "ASC",
+              "policy": "default",
+              "query": "select * from undo_table_orafmwpa where \"IP\" = '10.5.249.193' AND  time>now()-30m group by \"IP\"",
+              "rawQuery": true,
+              "refId": "A",
+              "resultFormat": "table",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "value"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [],
+                    "type": "mean"
+                  }
+                ]
+              ],
+              "tags": []
+            }
+          ],
+          "title": "UNDO TableSpace ",
+          "transform": "table",
+          "type": "table-old"
+        },
+        {
+          "columns": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "LsyTlRBnk"
+          },
+          "fontSize": "100%",
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 0,
+            "y": 29
+          },
+          "id": 12,
+          "links": [
+            {
+              "title": "SELECT (select name from v\\$database)\"DB_Name\",F.TABLESPACE_NAME, T.TOTAL_SPACE \"TOTAL_MB\", (T.TOTAL_SPACE - F.FREE_SPACE) \"USED_MB\", F.FREE_SPACE \"FREE_MB\", TO_CHAR ((ROUND ((F.FREE_SPACE/T.TOTAL_SPACE)*100)),'999')||' %' \"Free%\" FROM   ( SELECT       TABLESPACE_NAME, ROUND (SUM (BLOCKS*(SELECT VALUE/1024 FROM V\\$PARAMETER WHERE NAME = 'db_block_size')/1024) ) FREE_SPACE FROM DBA_FREE_SPACE where tablespace_name not like '%UNDO%' GROUP BY TABLESPACE_NAME ) F, ( SELECT TABLESPACE_NAME, ROUND (SUM (BYTES/1048576)) TOTAL_SPACE FROM DBA_DATA_FILES GROUP BY TABLESPACE_NAME ) T WHERE F.TABLESPACE_NAME = T.TABLESPACE_NAME  order by 5;",
+              "url": "/"
+            }
+          ],
+          "scroll": true,
+          "showHeader": true,
+          "sort": {
+            "col": 6,
+            "desc": false
+          },
+          "styles": [
+            {
+              "alias": "Time",
+              "align": "auto",
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "pattern": "Time",
+              "type": "hidden"
+            },
+            {
+              "alias": "TOTAL",
+              "align": "auto",
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 2,
+              "mappingType": 1,
+              "pattern": "TOTAL_MB",
+              "thresholds": [],
+              "type": "number",
+              "unit": "decmbytes"
+            },
+            {
+              "alias": "",
+              "align": "auto",
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 2,
+              "mappingType": 1,
+              "pattern": "FREE_MB",
+              "thresholds": [],
+              "type": "number",
+              "unit": "decmbytes"
+            },
+            {
+              "alias": "",
+              "align": "auto",
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 2,
+              "mappingType": 1,
+              "pattern": "USED_MB",
+              "thresholds": [],
+              "type": "number",
+              "unit": "decmbytes"
+            },
+            {
+              "alias": "",
+              "align": "auto",
+              "colorMode": "row",
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 2,
+              "mappingType": 1,
+              "pattern": "FREE%",
+              "thresholds": [
+                "10",
+                "15"
+              ],
+              "type": "number",
+              "unit": "percent"
+            },
+            {
+              "alias": "NAME",
+              "align": "auto",
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 2,
+              "mappingType": 1,
+              "pattern": "name",
+              "thresholds": [],
+              "type": "number",
+              "unit": "short"
+            }
+          ],
+          "targets": [
+            {
+              "datasource": {
+                "type": "influxdb",
+                "uid": "LsyTlRBnk"
+              },
+              "groupBy": [
+                {
+                  "params": [
+                    "db_name"
+                  ],
+                  "type": "tag"
+                },
+                {
+                  "params": [
+                    "tablespace_name"
+                  ],
+                  "type": "tag"
+                },
+                {
+                  "params": [
+                    "IP"
+                  ],
+                  "type": "tag"
+                }
+              ],
+              "measurement": "RTRSTD_crt_table_pri",
+              "orderByTime": "ASC",
+              "policy": "default",
+              "query": "SELECT \"total_mb\" AS \"TOTAL_MB\", \"free_mb\" AS \"FREE_MB\", \"used_mb\" AS \"USED_MB\", \"free_pct\" AS \"FREE%\" FROM \"crt_table_orafmwpa\" WHERE \"IP\" = '10.5.249.192' AND $timeFilter GROUP BY \"db_name\", \"tablespace_name\", \"IP\"",
+              "rawQuery": true,
+              "refId": "A",
+              "resultFormat": "table",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "total_mb"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [
+                      "TOTAL_MB"
+                    ],
+                    "type": "alias"
+                  }
+                ],
+                [
+                  {
+                    "params": [
+                      "free_mb"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [
+                      "FREE_MB"
+                    ],
+                    "type": "alias"
+                  }
+                ],
+                [
+                  {
+                    "params": [
+                      "used_mb"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [
+                      "USED_MB"
+                    ],
+                    "type": "alias"
+                  }
+                ],
+                [
+                  {
+                    "params": [
+                      "free_pct"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [
+                      "FREE%"
+                    ],
+                    "type": "alias"
+                  }
+                ]
+              ],
+              "tags": []
+            }
+          ],
+          "timeFrom": "30m",
+          "title": "Critical Tablespace ",
+          "transform": "table",
+          "type": "table-old"
+        },
+        {
+          "columns": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "LsyTlRBnk"
+          },
+          "fontSize": "100%",
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 12,
+            "y": 29
+          },
+          "id": 14,
+          "links": [
+            {
+              "title": "SELECT (select name from v\\$database)\"DB_Name\",F.TABLESPACE_NAME, T.TOTAL_SPACE \"TOTAL_MB\", (T.TOTAL_SPACE - F.FREE_SPACE) \"USED_MB\", F.FREE_SPACE \"FREE_MB\", TO_CHAR ((ROUND ((F.FREE_SPACE/T.TOTAL_SPACE)*100)),'999')||' %' \"Free%\" FROM   ( SELECT       TABLESPACE_NAME, ROUND (SUM (BLOCKS*(SELECT VALUE/1024 FROM V\\$PARAMETER WHERE NAME = 'db_block_size')/1024) ) FREE_SPACE FROM DBA_FREE_SPACE where tablespace_name not like '%UNDO%' GROUP BY TABLESPACE_NAME ) F, ( SELECT TABLESPACE_NAME, ROUND (SUM (BYTES/1048576)) TOTAL_SPACE FROM DBA_DATA_FILES GROUP BY TABLESPACE_NAME ) T WHERE F.TABLESPACE_NAME = T.TABLESPACE_NAME  order by 5;",
+              "url": "/"
+            }
+          ],
+          "scroll": true,
+          "showHeader": true,
+          "sort": {
+            "col": 6,
+            "desc": false
+          },
+          "styles": [
+            {
+              "alias": "Time",
+              "align": "auto",
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "pattern": "Time",
+              "type": "hidden"
+            },
+            {
+              "alias": "TOTAL",
+              "align": "auto",
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 2,
+              "mappingType": 1,
+              "pattern": "TOTAL_MB",
+              "thresholds": [],
+              "type": "number",
+              "unit": "decmbytes"
+            },
+            {
+              "alias": "",
+              "align": "auto",
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 2,
+              "mappingType": 1,
+              "pattern": "FREE_MB",
+              "thresholds": [],
+              "type": "number",
+              "unit": "decmbytes"
+            },
+            {
+              "alias": "",
+              "align": "auto",
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 2,
+              "mappingType": 1,
+              "pattern": "USED_MB",
+              "thresholds": [],
+              "type": "number",
+              "unit": "decmbytes"
+            },
+            {
+              "alias": "",
+              "align": "auto",
+              "colorMode": "row",
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 2,
+              "mappingType": 1,
+              "pattern": "FREE%",
+              "thresholds": [
+                "10",
+                "15"
+              ],
+              "type": "number",
+              "unit": "percent"
+            },
+            {
+              "alias": "NAME",
+              "align": "auto",
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 2,
+              "mappingType": 1,
+              "pattern": "name",
+              "thresholds": [],
+              "type": "number",
+              "unit": "short"
+            }
+          ],
+          "targets": [
+            {
+              "datasource": {
+                "type": "influxdb",
+                "uid": "LsyTlRBnk"
+              },
+              "groupBy": [
+                {
+                  "params": [
+                    "db_name"
+                  ],
+                  "type": "tag"
+                },
+                {
+                  "params": [
+                    "tablespace_name"
+                  ],
+                  "type": "tag"
+                },
+                {
+                  "params": [
+                    "IP"
+                  ],
+                  "type": "tag"
+                }
+              ],
+              "measurement": "RTRSTD_crt_table_sec",
+              "orderByTime": "ASC",
+              "policy": "default",
+              "query": "SELECT \"total_mb\" AS \"TOTAL_MB\", \"free_mb\" AS \"FREE_MB\", \"used_mb\" AS \"USED_MB\", \"free_pct\" AS \"FREE%\" FROM \"crt_table_orafmwpa\" WHERE \"IP\" = '10.5.249.193' AND $timeFilter GROUP BY \"db_name\", \"tablespace_name\", \"IP\"",
+              "rawQuery": true,
+              "refId": "A",
+              "resultFormat": "table",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "total_mb"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [
+                      "TOTAL_MB"
+                    ],
+                    "type": "alias"
+                  }
+                ],
+                [
+                  {
+                    "params": [
+                      "free_mb"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [
+                      "FREE_MB"
+                    ],
+                    "type": "alias"
+                  }
+                ],
+                [
+                  {
+                    "params": [
+                      "used_mb"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [
+                      "USED_MB"
+                    ],
+                    "type": "alias"
+                  }
+                ],
+                [
+                  {
+                    "params": [
+                      "free_pct"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [
+                      "FREE%"
+                    ],
+                    "type": "alias"
+                  }
+                ]
+              ],
+              "tags": []
+            }
+          ],
+          "timeFrom": "30m",
+          "title": "Critical Tablespace ",
+          "transform": "table",
+          "type": "table-old"
+        },
+        {
+          "columns": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "LsyTlRBnk"
+          },
+          "fontSize": "100%",
+          "gridPos": {
+            "h": 6,
+            "w": 24,
+            "x": 0,
+            "y": 37
+          },
+          "id": 10,
+          "links": [],
+          "scroll": true,
+          "showHeader": true,
+          "sort": {
+            "col": 2,
+            "desc": false
+          },
+          "styles": [
+            {
+              "alias": "Time",
+              "align": "auto",
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "pattern": "Time",
+              "type": "hidden"
+            },
+            {
+              "alias": "User Name",
+              "align": "auto",
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "decimals": 2,
+              "pattern": "name",
+              "thresholds": [],
+              "type": "number",
+              "unit": "short"
+            },
+            {
+              "alias": "COUNT",
+              "align": "auto",
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "mappingType": 1,
+              "pattern": "last",
+              "thresholds": [],
+              "type": "number",
+              "unit": "short"
+            },
+            {
+              "alias": "",
+              "align": "auto",
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 2,
+              "mappingType": 1,
+              "pattern": "last_call_et",
+              "thresholds": [],
+              "type": "number",
+              "unit": "m"
+            }
+          ],
+          "targets": [
+            {
+              "alias": "$tag_name",
+              "datasource": {
+                "type": "influxdb",
+                "uid": "LsyTlRBnk"
+              },
+              "groupBy": [
+                {
+                  "params": [
+                    "30m"
+                  ],
+                  "type": "time"
+                },
+                {
+                  "params": [
+                    "name"
+                  ],
+                  "type": "tag"
+                },
+                {
+                  "params": [
+                    "null"
+                  ],
+                  "type": "fill"
+                }
+              ],
+              "measurement": "Session",
+              "orderByTime": "ASC",
+              "policy": "default",
+              "query": "select * from long_running_orafmwpa WHERE  \"IP\" = '10.5.249.192' ",
+              "rawQuery": true,
+              "refId": "A",
+              "resultFormat": "table",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "count"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [],
+                    "type": "last"
+                  }
+                ]
+              ],
+              "tags": []
+            }
+          ],
+          "timeFrom": "2h",
+          "title": "Long Running query ",
+          "transform": "table",
+          "type": "table-old"
+        },
+        {
+          "columns": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "LsyTlRBnk"
+          },
+          "fontSize": "100%",
+          "gridPos": {
+            "h": 6,
+            "w": 24,
+            "x": 0,
+            "y": 43
+          },
+          "id": 8,
+          "links": [],
+          "scroll": true,
+          "showHeader": true,
+          "sort": {
+            "col": 2,
+            "desc": false
+          },
+          "styles": [
+            {
+              "alias": "Time",
+              "align": "auto",
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "pattern": "Time",
+              "type": "hidden"
+            },
+            {
+              "alias": "User Name",
+              "align": "auto",
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "decimals": 2,
+              "pattern": "name",
+              "thresholds": [],
+              "type": "number",
+              "unit": "short"
+            },
+            {
+              "alias": "COUNT",
+              "align": "auto",
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "mappingType": 1,
+              "pattern": "last",
+              "thresholds": [],
+              "type": "number",
+              "unit": "short"
+            }
+          ],
+          "targets": [
+            {
+              "alias": "$tag_name",
+              "datasource": {
+                "type": "influxdb",
+                "uid": "LsyTlRBnk"
+              },
+              "groupBy": [
+                {
+                  "params": [
+                    "30m"
+                  ],
+                  "type": "time"
+                },
+                {
+                  "params": [
+                    "name"
+                  ],
+                  "type": "tag"
+                },
+                {
+                  "params": [
+                    "null"
+                  ],
+                  "type": "fill"
+                }
+              ],
+              "measurement": "Session",
+              "orderByTime": "ASC",
+              "policy": "default",
+              "query": "select * from long_running_orafmwpa WHERE \"IP\" = '10.5.249.193' ",
+              "rawQuery": true,
+              "refId": "A",
+              "resultFormat": "table",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "count"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [],
+                    "type": "last"
+                  }
+                ]
+              ],
+              "tags": []
+            }
+          ],
+          "timeFrom": "2h",
+          "title": "Long Running query ",
+          "transform": "table",
+          "type": "table-old"
+        }
+      ],
+      "title": "V$_ORAFMWPA",
+      "type": "row"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 1
+      },
+      "id": 32,
+      "panels": [],
+      "title": "V$_APBEKYC",
+      "type": "row"
+    },
+    {
+      "columns": [],
+      "datasource": {
+        "type": "influxdb",
+        "uid": "LsyTlRBnk"
+      },
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 0,
+        "y": 2
+      },
+      "id": 44,
+      "links": [],
+      "scroll": true,
+      "showHeader": true,
+      "sort": {
+        "col": 2,
+        "desc": false
+      },
+      "styles": [
+        {
+          "alias": "Time",
+          "align": "auto",
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "pattern": "Time",
+          "type": "hidden"
+        },
+        {
+          "alias": "User Name",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "decimals": 2,
+          "pattern": "name",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        },
+        {
+          "alias": "COUNT",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "mappingType": 1,
+          "pattern": "last",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "alias": "$tag_name",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "LsyTlRBnk"
+          },
+          "groupBy": [
+            {
+              "params": [
+                "30m"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "name"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "Session",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT \"inst_id\",\"count\",\"status\" FROM \"session_apbekyc\" where  \"IP\" = '10.5.249.113' AND time>now()-30m GROUP BY \"name\",\"IP\" fill(null)\n",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "table",
+          "select": [
+            [
+              {
+                "params": [
+                  "count"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "timeFrom": "30m",
+      "title": "Session Count ",
+      "transform": "table",
+      "type": "table-old"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "influxdb",
+        "uid": "LsyTlRBnk"
+      },
+      "decimals": 0,
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 12,
+        "y": 2
+      },
+      "hiddenSeries": false,
+      "id": 43,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": false,
+        "hideEmpty": true,
+        "hideZero": false,
+        "max": false,
+        "min": false,
+        "rightSide": true,
+        "show": true,
+        "total": true,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "connected",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "8.3.3",
+      "pointradius": 2,
+      "points": true,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "alias": "$tag_IP: $tag_name",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "LsyTlRBnk"
+          },
+          "groupBy": [
+            {
+              "params": [
+                "30m"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "name"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "Session",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT \"count\",\"status\" FROM \"session_apbekyc\" where  \"IP\" = '10.5.249.113' AND  time>now()-30m GROUP BY \"IP\",\"name\"",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "count"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": "30m",
+      "timeRegions": [],
+      "title": "Session Count ",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "columns": [],
+      "datasource": {
+        "type": "influxdb",
+        "uid": "LsyTlRBnk"
+      },
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 0,
+        "y": 8
+      },
+      "id": 45,
+      "links": [],
+      "scroll": true,
+      "showHeader": true,
+      "sort": {
+        "col": 2,
+        "desc": false
+      },
+      "styles": [
+        {
+          "alias": "Time",
+          "align": "auto",
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "pattern": "Time",
+          "type": "hidden"
+        },
+        {
+          "alias": "User Name",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "decimals": 2,
+          "pattern": "name",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        },
+        {
+          "alias": "COUNT",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "mappingType": 1,
+          "pattern": "last",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "alias": "$tag_name",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "LsyTlRBnk"
+          },
+          "groupBy": [
+            {
+              "params": [
+                "30m"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "name"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "Session",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT \"inst_id\",\"count\",\"status\" FROM \"session_apbekyc\" where  \"IP\" = '10.5.249.113' AND time>now()-30m GROUP BY \"name\",\"IP\" fill(null)\n",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "table",
+          "select": [
+            [
+              {
+                "params": [
+                  "count"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "timeFrom": "30m",
+      "title": "Session Count ",
+      "transform": "table",
+      "type": "table-old"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "influxdb",
+        "uid": "LsyTlRBnk"
+      },
+      "decimals": 0,
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 12,
+        "y": 8
+      },
+      "hiddenSeries": false,
+      "id": 46,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": false,
+        "hideEmpty": true,
+        "hideZero": false,
+        "max": false,
+        "min": false,
+        "rightSide": true,
+        "show": true,
+        "total": true,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "connected",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "8.3.3",
+      "pointradius": 2,
+      "points": true,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "alias": "$tag_IP: $tag_name",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "LsyTlRBnk"
+          },
+          "groupBy": [
+            {
+              "params": [
+                "30m"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "name"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "Session",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT \"count\",\"status\" FROM \"session_apbekyc\" where  \"IP\" = '10.5.249.114' AND  time>now()-30m GROUP BY \"IP\",\"name\"",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "count"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": "30m",
+      "timeRegions": [],
+      "title": "Session Count ",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "activePatternIndex": 2,
+      "datasource": {
+        "type": "influxdb",
+        "uid": "LsyTlRBnk"
+      },
+      "defaultPattern": {
+        "bgColors": "green|orange|red",
+        "bgColors_overrides": "0->green|2->red|1->yellow",
+        "clickable_cells_link": "",
+        "col_name": "Value",
+        "decimals": 2,
+        "defaultBGColor": "",
+        "defaultTextColor": "",
+        "delimiter": ".",
+        "displayTemplate": "_value_",
+        "enable_bgColor": false,
+        "enable_bgColor_overrides": false,
+        "enable_clickable_cells": false,
+        "enable_textColor": false,
+        "enable_textColor_overrides": false,
+        "enable_time_based_thresholds": false,
+        "enable_transform": false,
+        "enable_transform_overrides": false,
+        "filter": {
+          "value_above": "",
+          "value_below": ""
+        },
+        "format": "none",
+        "name": "Default Pattern",
+        "null_color": "darkred",
+        "null_textcolor": "black",
+        "null_value": "No data",
+        "pattern": "*",
+        "row_col_wrapper": "_",
+        "row_name": "_series_",
+        "textColors": "red|orange|green",
+        "textColors_overrides": "0->red|2->green|1->yellow",
+        "thresholds": "70,90",
+        "time_based_thresholds": [],
+        "tooltipTemplate": "Series : _series_ <br/>Row Name : _row_name_ <br/>Col Name : _col_name_ <br/>Value : _value_",
+        "transform_values": "_value_|_value_|_value_",
+        "transform_values_overrides": "0->down|1->up",
+        "valueName": "avg"
+      },
+      "default_title_for_rows": "Thread",
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 0,
+        "y": 14
+      },
+      "id": 42,
+      "links": [],
+      "patterns": [
+        {
+          "bgColors": "green|orange|red",
+          "bgColors_overrides": "0->green|2->red|1->yellow",
+          "clickable_cells_link": "",
+          "col_name": "LAST SEQUENCE",
+          "decimals": "0",
+          "defaultBGColor": "",
+          "defaultTextColor": "",
+          "delimiter": "|",
+          "displayTemplate": "_value_",
+          "enable_bgColor": false,
+          "enable_bgColor_overrides": false,
+          "enable_clickable_cells": false,
+          "enable_textColor": false,
+          "enable_textColor_overrides": false,
+          "enable_time_based_thresholds": false,
+          "enable_transform": false,
+          "enable_transform_overrides": false,
+          "filter": {
+            "value_above": "",
+            "value_below": ""
+          },
+          "format": "none",
+          "name": "LAST SEQUENCE",
+          "null_color": "darkred",
+          "null_textcolor": "black",
+          "null_value": "No data",
+          "pattern": "^LAST.*",
+          "row_col_wrapper": "_",
+          "row_name": "_1_",
+          "textColors": "red|orange|green",
+          "textColors_overrides": "0->red|2->green|1->yellow",
+          "thresholds": "70,90",
+          "time_based_thresholds": [],
+          "tooltipTemplate": "Series : _series_ <br/>Row Name : _row_name_ <br/>Col Name : _col_name_ <br/>Value : _value_",
+          "transform_values": "_value_|_value_|_value_",
+          "transform_values_overrides": "0->down|1->up",
+          "valueName": "current"
+        },
+        {
+          "bgColors": "green|orange|red",
+          "bgColors_overrides": "0->green|2->red|1->yellow",
+          "clickable_cells_link": "",
+          "col_name": "APPLIED SEQUENCE",
+          "decimals": "0",
+          "defaultBGColor": "",
+          "defaultTextColor": "",
+          "delimiter": "|",
+          "displayTemplate": "_value_",
+          "enable_bgColor": false,
+          "enable_bgColor_overrides": false,
+          "enable_clickable_cells": false,
+          "enable_textColor": false,
+          "enable_textColor_overrides": false,
+          "enable_time_based_thresholds": false,
+          "enable_transform": false,
+          "enable_transform_overrides": false,
+          "filter": {
+            "value_above": "",
+            "value_below": ""
+          },
+          "format": "none",
+          "name": "APPLIED SEQUENCE",
+          "null_color": "darkred",
+          "null_textcolor": "black",
+          "null_value": "No data",
+          "pattern": "^APPLIED.*",
+          "row_col_wrapper": "_",
+          "row_name": "_1_",
+          "textColors": "red|orange|green",
+          "textColors_overrides": "0->red|2->green|1->yellow",
+          "thresholds": "70,90",
+          "time_based_thresholds": [],
+          "tooltipTemplate": "Series : _series_ <br/>Row Name : _row_name_ <br/>Col Name : _col_name_ <br/>Value : _value_",
+          "transform_values": "_value_|_value_|_value_",
+          "transform_values_overrides": "0->down|1->up",
+          "valueName": "current"
+        },
+        {
+          "bgColors": "red|orange|green",
+          "bgColors_overrides": "0->green|2->red|1->yellow",
+          "clickable_cells_link": "",
+          "col_name": "ARC DIFFERENCE",
+          "decimals": "0",
+          "defaultBGColor": "",
+          "defaultTextColor": "",
+          "delimiter": "|",
+          "displayTemplate": "_value_",
+          "enable_bgColor": true,
+          "enable_bgColor_overrides": false,
+          "enable_clickable_cells": false,
+          "enable_textColor": false,
+          "enable_textColor_overrides": false,
+          "enable_time_based_thresholds": false,
+          "enable_transform": false,
+          "enable_transform_overrides": false,
+          "filter": {
+            "value_above": "",
+            "value_below": ""
+          },
+          "format": "none",
+          "name": "ARC DIFFERENCE",
+          "null_color": "darkred",
+          "null_textcolor": "black",
+          "null_value": "No data",
+          "pattern": "^ARC.*",
+          "row_col_wrapper": "_",
+          "row_name": "_1_",
+          "textColors": "red|orange|green",
+          "textColors_overrides": "0->red|2->green|1->yellow",
+          "thresholds": "0",
+          "time_based_thresholds": [],
+          "tooltipTemplate": "Series : _series_ <br/>Row Name : _row_name_ <br/>Col Name : _col_name_ <br/>Value : _value_",
+          "transform_values": "_value_|_value_|_value_",
+          "transform_values_overrides": "0->down|1->up",
+          "valueName": "current"
+        }
+      ],
+      "row_col_wrapper": "_",
+      "sorting_props": {
+        "col_index": 2,
+        "direction": "desc"
+      },
+      "targets": [
+        {
+          "alias": "LAST|$tag_thread ($tag_IP)",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "LsyTlRBnk"
+          },
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "thread"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "IP"
+              ],
+              "type": "tag"
+            }
+          ],
+          "measurement": "RTRSTD_stdby_pri",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT last(\"last_seq\") FROM \"stdby_apbkyc\" WHERE \"IP\" = '10.5.249.113' AND $timeFilter GROUP BY time($__interval), \"thread\", \"IP\"",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "last_seq"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              }
+            ]
+          ],
+          "tags": []
+        },
+        {
+          "alias": "APPLIED|$tag_thread ($tag_IP)",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "LsyTlRBnk"
+          },
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "thread"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "IP"
+              ],
+              "type": "tag"
+            }
+          ],
+          "measurement": "RTR_stdby_sec",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT last(\"applied_seq\") FROM \"stdby_orafmwpa\" WHERE \"IP\" = '10.5.249.193' AND $timeFilter GROUP BY time($__interval), \"thread\", \"IP\"",
+          "rawQuery": true,
+          "refId": "B",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "applied_seq"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              }
+            ]
+          ],
+          "tags": []
+        },
+        {
+          "alias": "ARC|$tag_thread ($tag_IP)",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "LsyTlRBnk"
+          },
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "thread"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "IP"
+              ],
+              "type": "tag"
+            }
+          ],
+          "measurement": "RTR_stdby_sec",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT last(\"arc_diff\") FROM \"stdby_orafmwpa\" WHERE \"IP\" = '10.5.249.193' AND $timeFilter GROUP BY time($__interval), \"thread\", \"IP\"",
+          "rawQuery": true,
+          "refId": "C",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "arc_diff"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "timeFrom": "15m",
+      "title": "DataBase Standby Status ",
+      "type": "yesoreyeram-boomtable-panel"
+    },
+    {
+      "activePatternIndex": 2,
+      "datasource": {
+        "type": "influxdb",
+        "uid": "LsyTlRBnk"
+      },
+      "defaultPattern": {
+        "bgColors": "green|orange|red",
+        "bgColors_overrides": "0->green|2->red|1->yellow",
+        "clickable_cells_link": "",
+        "col_name": "Value",
+        "decimals": 2,
+        "defaultBGColor": "",
+        "defaultTextColor": "",
+        "delimiter": ".",
+        "displayTemplate": "_value_",
+        "enable_bgColor": false,
+        "enable_bgColor_overrides": false,
+        "enable_clickable_cells": false,
+        "enable_textColor": false,
+        "enable_textColor_overrides": false,
+        "enable_time_based_thresholds": false,
+        "enable_transform": false,
+        "enable_transform_overrides": false,
+        "filter": {
+          "value_above": "",
+          "value_below": ""
+        },
+        "format": "none",
+        "name": "Default Pattern",
+        "null_color": "darkred",
+        "null_textcolor": "black",
+        "null_value": "No data",
+        "pattern": "*",
+        "row_col_wrapper": "_",
+        "row_name": "_series_",
+        "textColors": "red|orange|green",
+        "textColors_overrides": "0->red|2->green|1->yellow",
+        "thresholds": "70,90",
+        "time_based_thresholds": [],
+        "tooltipTemplate": "Series : _series_ <br/>Row Name : _row_name_ <br/>Col Name : _col_name_ <br/>Value : _value_",
+        "transform_values": "_value_|_value_|_value_",
+        "transform_values_overrides": "0->down|1->up",
+        "valueName": "avg"
+      },
+      "default_title_for_rows": "Thread",
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 12,
+        "y": 14
+      },
+      "id": 41,
+      "links": [],
+      "patterns": [
+        {
+          "bgColors": "green|orange|red",
+          "bgColors_overrides": "0->green|2->red|1->yellow",
+          "clickable_cells_link": "",
+          "col_name": "LAST SEQUENCE",
+          "decimals": "0",
+          "defaultBGColor": "",
+          "defaultTextColor": "",
+          "delimiter": "|",
+          "displayTemplate": "_value_",
+          "enable_bgColor": false,
+          "enable_bgColor_overrides": false,
+          "enable_clickable_cells": false,
+          "enable_textColor": false,
+          "enable_textColor_overrides": false,
+          "enable_time_based_thresholds": false,
+          "enable_transform": false,
+          "enable_transform_overrides": false,
+          "filter": {
+            "value_above": "",
+            "value_below": ""
+          },
+          "format": "none",
+          "name": "LAST SEQUENCE",
+          "null_color": "darkred",
+          "null_textcolor": "black",
+          "null_value": "No data",
+          "pattern": "^LAST.*",
+          "row_col_wrapper": "_",
+          "row_name": "_1_",
+          "textColors": "red|orange|green",
+          "textColors_overrides": "0->red|2->green|1->yellow",
+          "thresholds": "70,90",
+          "time_based_thresholds": [],
+          "tooltipTemplate": "Series : _series_ <br/>Row Name : _row_name_ <br/>Col Name : _col_name_ <br/>Value : _value_",
+          "transform_values": "_value_|_value_|_value_",
+          "transform_values_overrides": "0->down|1->up",
+          "valueName": "current"
+        },
+        {
+          "bgColors": "green|orange|red",
+          "bgColors_overrides": "0->green|2->red|1->yellow",
+          "clickable_cells_link": "",
+          "col_name": "APPLIED SEQUENCE",
+          "decimals": "0",
+          "defaultBGColor": "",
+          "defaultTextColor": "",
+          "delimiter": "|",
+          "displayTemplate": "_value_",
+          "enable_bgColor": false,
+          "enable_bgColor_overrides": false,
+          "enable_clickable_cells": false,
+          "enable_textColor": false,
+          "enable_textColor_overrides": false,
+          "enable_time_based_thresholds": false,
+          "enable_transform": false,
+          "enable_transform_overrides": false,
+          "filter": {
+            "value_above": "",
+            "value_below": ""
+          },
+          "format": "none",
+          "name": "APPLIED SEQUENCE",
+          "null_color": "darkred",
+          "null_textcolor": "black",
+          "null_value": "No data",
+          "pattern": "^APPLIED.*",
+          "row_col_wrapper": "_",
+          "row_name": "_1_",
+          "textColors": "red|orange|green",
+          "textColors_overrides": "0->red|2->green|1->yellow",
+          "thresholds": "70,90",
+          "time_based_thresholds": [],
+          "tooltipTemplate": "Series : _series_ <br/>Row Name : _row_name_ <br/>Col Name : _col_name_ <br/>Value : _value_",
+          "transform_values": "_value_|_value_|_value_",
+          "transform_values_overrides": "0->down|1->up",
+          "valueName": "current"
+        },
+        {
+          "bgColors": "red|orange|green",
+          "bgColors_overrides": "0->green|2->red|1->yellow",
+          "clickable_cells_link": "",
+          "col_name": "ARC DIFFERENCE",
+          "decimals": "0",
+          "defaultBGColor": "",
+          "defaultTextColor": "",
+          "delimiter": "|",
+          "displayTemplate": "_value_",
+          "enable_bgColor": true,
+          "enable_bgColor_overrides": false,
+          "enable_clickable_cells": false,
+          "enable_textColor": false,
+          "enable_textColor_overrides": false,
+          "enable_time_based_thresholds": false,
+          "enable_transform": false,
+          "enable_transform_overrides": false,
+          "filter": {
+            "value_above": "",
+            "value_below": ""
+          },
+          "format": "none",
+          "name": "ARC DIFFERENCE",
+          "null_color": "darkred",
+          "null_textcolor": "black",
+          "null_value": "No data",
+          "pattern": "^ARC.*",
+          "row_col_wrapper": "_",
+          "row_name": "_1_",
+          "textColors": "red|orange|green",
+          "textColors_overrides": "0->red|2->green|1->yellow",
+          "thresholds": "0",
+          "time_based_thresholds": [],
+          "tooltipTemplate": "Series : _series_ <br/>Row Name : _row_name_ <br/>Col Name : _col_name_ <br/>Value : _value_",
+          "transform_values": "_value_|_value_|_value_",
+          "transform_values_overrides": "0->down|1->up",
+          "valueName": "current"
+        }
+      ],
+      "row_col_wrapper": "_",
+      "sorting_props": {
+        "col_index": 2,
+        "direction": "desc"
+      },
+      "targets": [
+        {
+          "alias": "LAST|$tag_thread ($tag_IP)",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "LsyTlRBnk"
+          },
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "thread"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "IP"
+              ],
+              "type": "tag"
+            }
+          ],
+          "measurement": "RTRSTD_stdby_pri",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT last(\"last_seq\") FROM \"stdby_apbekyc\" WHERE \"IP\" = '10.5.249.114' AND $timeFilter GROUP BY time($__interval), \"thread\", \"IP\"",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "last_seq"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              }
+            ]
+          ],
+          "tags": []
+        },
+        {
+          "alias": "APPLIED|$tag_thread ($tag_IP)",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "LsyTlRBnk"
+          },
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "thread"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "IP"
+              ],
+              "type": "tag"
+            }
+          ],
+          "measurement": "RTR_stdby_sec",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT last(\"applied_seq\") FROM \"stdby_orafmwpa\" WHERE \"IP\" = '10.5.249.193' AND $timeFilter GROUP BY time($__interval), \"thread\", \"IP\"",
+          "rawQuery": true,
+          "refId": "B",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "applied_seq"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              }
+            ]
+          ],
+          "tags": []
+        },
+        {
+          "alias": "ARC|$tag_thread ($tag_IP)",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "LsyTlRBnk"
+          },
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "thread"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "IP"
+              ],
+              "type": "tag"
+            }
+          ],
+          "measurement": "RTR_stdby_sec",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT last(\"arc_diff\") FROM \"stdby_orafmwpa\" WHERE \"IP\" = '10.5.249.193' AND $timeFilter GROUP BY time($__interval), \"thread\", \"IP\"",
+          "rawQuery": true,
+          "refId": "C",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "arc_diff"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "timeFrom": "15m",
+      "title": "DataBase Standby Status ",
+      "type": "yesoreyeram-boomtable-panel"
+    },
+    {
+      "columns": [],
+      "datasource": {
+        "type": "influxdb",
+        "uid": "LsyTlRBnk"
+      },
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 0,
+        "y": 20
+      },
+      "id": 39,
+      "links": [
+        {
+          "title": "select name||','||state||','||total_mb/1024||','||free_mb/1024||','||(((total_mb - free_mb)/1024)*100)/(total_mb/1024) pct_USED from v$asm_diskgroup  OR  SELECT name group_name, state state, type  type, total_mb/1024  total_gb, (total_mb/1024 - free_mb/1024)  used_gb, ROUND((1- (free_mb / total_mb))*100, 2)  pct_used FROM v$asm_diskgroup ORDER BY name",
+          "url": "/"
+        }
+      ],
+      "scroll": true,
+      "showHeader": true,
+      "sort": {
+        "col": 8,
+        "desc": true
+      },
+      "styles": [
+        {
+          "alias": "Time",
+          "align": "auto",
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "pattern": "Time",
+          "type": "hidden"
+        },
+        {
+          "alias": "FREE SPACE",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "pattern": "free_mb",
+          "thresholds": [],
+          "type": "number",
+          "unit": "decgbytes"
+        },
+        {
+          "alias": "NAME",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "name",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        },
+        {
+          "alias": "",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "pct_used",
+          "thresholds": [],
+          "type": "hidden",
+          "unit": "short"
+        },
+        {
+          "alias": "TOTAL",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "total_mb",
+          "thresholds": [],
+          "type": "number",
+          "unit": "decgbytes"
+        },
+        {
+          "alias": "",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "type",
+          "thresholds": [],
+          "type": "hidden",
+          "unit": "short"
+        },
+        {
+          "alias": "USED %",
+          "align": "auto",
+          "colorMode": "row",
+          "colors": [
+            "rgba(50, 172, 45, 0.97)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(245, 54, 54, 0.9)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "used_pct",
+          "thresholds": [
+            "80",
+            "90"
+          ],
+          "type": "number",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "alias": "",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "LsyTlRBnk"
+          },
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "name"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "IP"
+              ],
+              "type": "tag"
+            }
+          ],
+          "measurement": "RTRSTD_asm_disk_pri",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT * FROM \"asm_disk_apbekyc\" where \"IP\" = '10.5.249.113' AND time>now()-30m",
+          "rawQuery": true,
+          "refId": "C",
+          "resultFormat": "table",
+          "select": [
+            [
+              {
+                "params": [
+                  "used_pct"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "timeFrom": "30m",
+      "title": "DiskGroup  ",
+      "transform": "table",
+      "type": "table-old"
+    },
+    {
+      "columns": [],
+      "datasource": {
+        "type": "influxdb",
+        "uid": "LsyTlRBnk"
+      },
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 12,
+        "y": 20
+      },
+      "id": 40,
+      "links": [
+        {
+          "title": "select name||','||state||','||total_mb/1024||','||free_mb/1024||','||(((total_mb - free_mb)/1024)*100)/(total_mb/1024) pct_USED from v$asm_diskgroup  OR  SELECT name group_name, state state, type  type, total_mb/1024  total_gb, (total_mb/1024 - free_mb/1024)  used_gb, ROUND((1- (free_mb / total_mb))*100, 2)  pct_used FROM v$asm_diskgroup ORDER BY name",
+          "url": "/"
+        }
+      ],
+      "scroll": true,
+      "showHeader": true,
+      "sort": {
+        "col": 8,
+        "desc": true
+      },
+      "styles": [
+        {
+          "alias": "Time",
+          "align": "auto",
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "pattern": "Time",
+          "type": "hidden"
+        },
+        {
+          "alias": "FREE SPACE",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "pattern": "free_mb",
+          "thresholds": [],
+          "type": "number",
+          "unit": "decgbytes"
+        },
+        {
+          "alias": "NAME",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "name",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        },
+        {
+          "alias": "",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "pct_used",
+          "thresholds": [],
+          "type": "hidden",
+          "unit": "short"
+        },
+        {
+          "alias": "TOTAL",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "total_mb",
+          "thresholds": [],
+          "type": "number",
+          "unit": "decgbytes"
+        },
+        {
+          "alias": "",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "type",
+          "thresholds": [],
+          "type": "hidden",
+          "unit": "short"
+        },
+        {
+          "alias": "USED %",
+          "align": "auto",
+          "colorMode": "row",
+          "colors": [
+            "rgba(50, 172, 45, 0.97)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(245, 54, 54, 0.9)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "used_pct",
+          "thresholds": [
+            "80",
+            "90"
+          ],
+          "type": "number",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "alias": "",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "LsyTlRBnk"
+          },
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "name"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "IP"
+              ],
+              "type": "tag"
+            }
+          ],
+          "measurement": "RTRSTD_asm_disk_pri",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT * FROM \"asm_disk_apbekyc\" where \"IP\" = '10.5.249.114' AND time>now()-30m",
+          "rawQuery": true,
+          "refId": "C",
+          "resultFormat": "table",
+          "select": [
+            [
+              {
+                "params": [
+                  "used_pct"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "timeFrom": "30m",
+      "title": "DiskGroup  ",
+      "transform": "table",
+      "type": "table-old"
+    },
+    {
+      "columns": [],
+      "datasource": {
+        "type": "influxdb",
+        "uid": "LsyTlRBnk"
+      },
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 4,
+        "w": 12,
+        "x": 0,
+        "y": 26
+      },
+      "id": 37,
+      "links": [],
+      "scroll": true,
+      "showHeader": true,
+      "sort": {
+        "col": 5,
+        "desc": false
+      },
+      "styles": [
+        {
+          "$$hashKey": "object:314",
+          "alias": "Time",
+          "align": "auto",
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "pattern": "Time",
+          "type": "hidden"
+        },
+        {
+          "$$hashKey": "object:315",
+          "alias": "Free MB",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "decimals": 2,
+          "pattern": "freemb",
+          "thresholds": [],
+          "type": "number",
+          "unit": "none"
+        },
+        {
+          "$$hashKey": "object:316",
+          "alias": "USED %",
+          "align": "auto",
+          "colorMode": "row",
+          "colors": [
+            "rgba(50, 172, 45, 0.97)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(245, 54, 54, 0.9)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "pct_used",
+          "thresholds": [
+            "60",
+            "90"
+          ],
+          "type": "number",
+          "unit": "percent"
+        },
+        {
+          "$$hashKey": "object:317",
+          "alias": "TOTAL MB",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "sizemb",
+          "thresholds": [],
+          "type": "number",
+          "unit": "none"
+        },
+        {
+          "$$hashKey": "object:318",
+          "alias": "NAME",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "tablespace_name",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short"
+        },
+        {
+          "$$hashKey": "object:319",
+          "alias": "Used MB",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "usagemb",
+          "thresholds": [],
+          "type": "number",
+          "unit": "none"
+        },
+        {
+          "$$hashKey": "object:393",
+          "alias": "",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "IP1",
+          "thresholds": [],
+          "type": "hidden",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "LsyTlRBnk"
+          },
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "IP1"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "undo_tablespace",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "select * from undo_table_apbekyc where \"IP\" = '10.5.249.113' AND  time>now()-30m group by \"IP\"",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "table",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "title": "UNDO TableSpace ",
+      "transform": "table",
+      "type": "table-old"
+    },
+    {
+      "columns": [],
+      "datasource": {
+        "type": "influxdb",
+        "uid": "LsyTlRBnk"
+      },
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 4,
+        "w": 12,
+        "x": 12,
+        "y": 26
+      },
+      "id": 38,
+      "links": [],
+      "scroll": true,
+      "showHeader": true,
+      "sort": {
+        "col": 5,
+        "desc": false
+      },
+      "styles": [
+        {
+          "alias": "Time",
+          "align": "auto",
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "pattern": "Time",
+          "type": "hidden"
+        },
+        {
+          "alias": "Free MB",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "decimals": 2,
+          "pattern": "freemb",
+          "thresholds": [],
+          "type": "number",
+          "unit": "none"
+        },
+        {
+          "alias": "USED %",
+          "align": "auto",
+          "colorMode": "row",
+          "colors": [
+            "rgba(50, 172, 45, 0.97)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(245, 54, 54, 0.9)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "pct_used",
+          "thresholds": [
+            "60",
+            "90"
+          ],
+          "type": "number",
+          "unit": "percent"
+        },
+        {
+          "alias": "TOTAL MB",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "sizemb",
+          "thresholds": [],
+          "type": "number",
+          "unit": "none"
+        },
+        {
+          "alias": "NAME",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "tablespace_name",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short"
+        },
+        {
+          "alias": "Used MB",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "usagemb",
+          "thresholds": [],
+          "type": "number",
+          "unit": "none"
+        }
+      ],
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "LsyTlRBnk"
+          },
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "IP1"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "undo_tablespace",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "select * from undo_table_apbekyc where \"IP\" = '10.5.249.114' AND time>now()-30m group by \"IP\"",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "table",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "title": "UNDO TableSpace ",
+      "transform": "table",
+      "type": "table-old"
+    },
+    {
+      "columns": [],
+      "datasource": {
+        "type": "influxdb",
+        "uid": "LsyTlRBnk"
+      },
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 30
+      },
+      "id": 36,
+      "links": [
+        {
+          "title": "SELECT (select name from v\\$database)\"DB_Name\",F.TABLESPACE_NAME, T.TOTAL_SPACE \"TOTAL_MB\", (T.TOTAL_SPACE - F.FREE_SPACE) \"USED_MB\", F.FREE_SPACE \"FREE_MB\", TO_CHAR ((ROUND ((F.FREE_SPACE/T.TOTAL_SPACE)*100)),'999')||' %' \"Free%\" FROM   ( SELECT       TABLESPACE_NAME, ROUND (SUM (BLOCKS*(SELECT VALUE/1024 FROM V\\$PARAMETER WHERE NAME = 'db_block_size')/1024) ) FREE_SPACE FROM DBA_FREE_SPACE where tablespace_name not like '%UNDO%' GROUP BY TABLESPACE_NAME ) F, ( SELECT TABLESPACE_NAME, ROUND (SUM (BYTES/1048576)) TOTAL_SPACE FROM DBA_DATA_FILES GROUP BY TABLESPACE_NAME ) T WHERE F.TABLESPACE_NAME = T.TABLESPACE_NAME  order by 5;",
+          "url": "/"
+        }
+      ],
+      "scroll": true,
+      "showHeader": true,
+      "sort": {
+        "col": 6,
+        "desc": false
+      },
+      "styles": [
+        {
+          "alias": "Time",
+          "align": "auto",
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "pattern": "Time",
+          "type": "hidden"
+        },
+        {
+          "alias": "TOTAL",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "TOTAL_MB",
+          "thresholds": [],
+          "type": "number",
+          "unit": "decmbytes"
+        },
+        {
+          "alias": "",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "FREE_MB",
+          "thresholds": [],
+          "type": "number",
+          "unit": "decmbytes"
+        },
+        {
+          "alias": "",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "USED_MB",
+          "thresholds": [],
+          "type": "number",
+          "unit": "decmbytes"
+        },
+        {
+          "alias": "",
+          "align": "auto",
+          "colorMode": "row",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "FREE%",
+          "thresholds": [
+            "10",
+            "15"
+          ],
+          "type": "number",
+          "unit": "percent"
+        },
+        {
+          "alias": "NAME",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "name",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "LsyTlRBnk"
+          },
+          "groupBy": [
+            {
+              "params": [
+                "db_name"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "tablespace_name"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "IP"
+              ],
+              "type": "tag"
+            }
+          ],
+          "measurement": "RTRSTD_crt_table_sec",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT \"total_mb\" AS \"TOTAL_MB\", \"free_mb\" AS \"FREE_MB\", \"used_mb\" AS \"USED_MB\", \"free_pct\" AS \"FREE%\" FROM \"crt_table_apbekyc\" WHERE \"IP\" = '10.5.249.113' AND $timeFilter GROUP BY \"db_name\", \"tablespace_name\", \"IP\"",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "table",
+          "select": [
+            [
+              {
+                "params": [
+                  "total_mb"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [
+                  "TOTAL_MB"
+                ],
+                "type": "alias"
+              }
+            ],
+            [
+              {
+                "params": [
+                  "free_mb"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [
+                  "FREE_MB"
+                ],
+                "type": "alias"
+              }
+            ],
+            [
+              {
+                "params": [
+                  "used_mb"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [
+                  "USED_MB"
+                ],
+                "type": "alias"
+              }
+            ],
+            [
+              {
+                "params": [
+                  "free_pct"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [
+                  "FREE%"
+                ],
+                "type": "alias"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "timeFrom": "30m",
+      "title": "Critical Tablespace ",
+      "transform": "table",
+      "type": "table-old"
+    },
+    {
+      "columns": [],
+      "datasource": {
+        "type": "influxdb",
+        "uid": "LsyTlRBnk"
+      },
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 30
+      },
+      "id": 35,
+      "links": [
+        {
+          "title": "SELECT (select name from v\\$database)\"DB_Name\",F.TABLESPACE_NAME, T.TOTAL_SPACE \"TOTAL_MB\", (T.TOTAL_SPACE - F.FREE_SPACE) \"USED_MB\", F.FREE_SPACE \"FREE_MB\", TO_CHAR ((ROUND ((F.FREE_SPACE/T.TOTAL_SPACE)*100)),'999')||' %' \"Free%\" FROM   ( SELECT       TABLESPACE_NAME, ROUND (SUM (BLOCKS*(SELECT VALUE/1024 FROM V\\$PARAMETER WHERE NAME = 'db_block_size')/1024) ) FREE_SPACE FROM DBA_FREE_SPACE where tablespace_name not like '%UNDO%' GROUP BY TABLESPACE_NAME ) F, ( SELECT TABLESPACE_NAME, ROUND (SUM (BYTES/1048576)) TOTAL_SPACE FROM DBA_DATA_FILES GROUP BY TABLESPACE_NAME ) T WHERE F.TABLESPACE_NAME = T.TABLESPACE_NAME  order by 5;",
+          "url": "/"
+        }
+      ],
+      "scroll": true,
+      "showHeader": true,
+      "sort": {
+        "col": 6,
+        "desc": false
+      },
+      "styles": [
+        {
+          "alias": "Time",
+          "align": "auto",
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "pattern": "Time",
+          "type": "hidden"
+        },
+        {
+          "alias": "TOTAL",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "TOTAL_MB",
+          "thresholds": [],
+          "type": "number",
+          "unit": "decmbytes"
+        },
+        {
+          "alias": "",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "FREE_MB",
+          "thresholds": [],
+          "type": "number",
+          "unit": "decmbytes"
+        },
+        {
+          "alias": "",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "USED_MB",
+          "thresholds": [],
+          "type": "number",
+          "unit": "decmbytes"
+        },
+        {
+          "alias": "",
+          "align": "auto",
+          "colorMode": "row",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "FREE%",
+          "thresholds": [
+            "10",
+            "15"
+          ],
+          "type": "number",
+          "unit": "percent"
+        },
+        {
+          "alias": "NAME",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "name",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "LsyTlRBnk"
+          },
+          "groupBy": [
+            {
+              "params": [
+                "db_name"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "tablespace_name"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "IP"
+              ],
+              "type": "tag"
+            }
+          ],
+          "measurement": "RTRSTD_crt_table_sec",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT \"total_mb\" AS \"TOTAL_MB\", \"free_mb\" AS \"FREE_MB\", \"used_mb\" AS \"USED_MB\", \"free_pct\" AS \"FREE%\" FROM \"crt_table_apbekyc\" WHERE \"IP\" = '10.5.249.114' AND $timeFilter GROUP BY \"db_name\", \"tablespace_name\", \"IP\"",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "table",
+          "select": [
+            [
+              {
+                "params": [
+                  "total_mb"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [
+                  "TOTAL_MB"
+                ],
+                "type": "alias"
+              }
+            ],
+            [
+              {
+                "params": [
+                  "free_mb"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [
+                  "FREE_MB"
+                ],
+                "type": "alias"
+              }
+            ],
+            [
+              {
+                "params": [
+                  "used_mb"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [
+                  "USED_MB"
+                ],
+                "type": "alias"
+              }
+            ],
+            [
+              {
+                "params": [
+                  "free_pct"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [
+                  "FREE%"
+                ],
+                "type": "alias"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "timeFrom": "30m",
+      "title": "Critical Tablespace ",
+      "transform": "table",
+      "type": "table-old"
+    },
+    {
+      "columns": [],
+      "datasource": {
+        "type": "influxdb",
+        "uid": "LsyTlRBnk"
+      },
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 6,
+        "w": 24,
+        "x": 0,
+        "y": 38
+      },
+      "id": 34,
+      "links": [],
+      "scroll": true,
+      "showHeader": true,
+      "sort": {
+        "col": 2,
+        "desc": false
+      },
+      "styles": [
+        {
+          "alias": "Time",
+          "align": "auto",
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "pattern": "Time",
+          "type": "hidden"
+        },
+        {
+          "alias": "User Name",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "decimals": 2,
+          "pattern": "name",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        },
+        {
+          "alias": "COUNT",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "mappingType": 1,
+          "pattern": "last",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        },
+        {
+          "alias": "",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "last_call_et",
+          "thresholds": [],
+          "type": "number",
+          "unit": "m"
+        }
+      ],
+      "targets": [
+        {
+          "alias": "$tag_name",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "LsyTlRBnk"
+          },
+          "groupBy": [
+            {
+              "params": [
+                "30m"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "name"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "Session",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "select * from long_running_apbekyc WHERE  \"IP\" = '10.5.249.113' ",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "table",
+          "select": [
+            [
+              {
+                "params": [
+                  "count"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "timeFrom": "2h",
+      "title": "Long Running query ",
+      "transform": "table",
+      "type": "table-old"
+    },
+    {
+      "columns": [],
+      "datasource": {
+        "type": "influxdb",
+        "uid": "LsyTlRBnk"
+      },
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 6,
+        "w": 24,
+        "x": 0,
+        "y": 44
+      },
+      "id": 33,
+      "links": [],
+      "scroll": true,
+      "showHeader": true,
+      "sort": {
+        "col": 2,
+        "desc": false
+      },
+      "styles": [
+        {
+          "alias": "Time",
+          "align": "auto",
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "pattern": "Time",
+          "type": "hidden"
+        },
+        {
+          "alias": "User Name",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "decimals": 2,
+          "pattern": "name",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        },
+        {
+          "alias": "COUNT",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "mappingType": 1,
+          "pattern": "last",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "alias": "$tag_name",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "LsyTlRBnk"
+          },
+          "groupBy": [
+            {
+              "params": [
+                "30m"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "name"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "Session",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "select * from long_running_apbekyc WHERE \"IP\" = '10.5.249.114' ",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "table",
+          "select": [
+            [
+              {
+                "params": [
+                  "count"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "timeFrom": "2h",
+      "title": "Long Running query ",
+      "transform": "table",
+      "type": "table-old"
+    }
+  ],
+  "schemaVersion": 34,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "V$",
+  "uid": "kBCklRfnk",
+  "version": 9,
+  "weekStart": ""
+}
