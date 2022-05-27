@@ -1,0 +1,63 @@
+Hi Masoom
+ 
+Kindly find the script below.
+ 
+Retail Business:
+ 
+Online Payment
+--No of payment receive today
+SELECT COUNT(*) FROM CRS_TR_WEBSITETRANSACTIONQUEUE
+WHERE TO_DATE(CRT_DATE)= TO_DATE(SYSDATE) AND TRANSACTIONSTATUS='PASS';
+ 
+--No of collection today
+SELECT COUNT(*)  FROM CRS_TR_WEBSITETRANSACTIONQUEUE
+WHERE TO_DATE(CRT_DATE)= TO_DATE(SYSDATE) AND STATUS='D' AND COLLECTIONID IS NOT NULL  ;
+ 
+--Error cases irrespective of date
+SELECT COUNT(*) FROM CRS_TR_WEBSITETRANSACTIONQUEUE WHERE STATUS='E' and
+transactionstatus='PASS' and collectionid is null ;
+ 
+--Pending cases irrespective of date
+select count(*) from crs_tr_websitetransactionqueue where status='P' 
+and transactionstatus='PASS' and collectionid is null ;
+ 
+ 
+Axis Online Payment:
+--Total axis payment
+SELECT count(*)  FROM crs_tr_axis_online WHERE to_date(ax_crt_date) = to_date(SYSDATE);
+--Total axis collection done
+SELECT count(*) FROM crs_tr_axis_online WHERE to_date(ax_crt_date) = to_date(SYSDATE) AND ax_coll_status ='D';
+--Total axis collection in error
+SELECT COUNT(*)  FROM CRS_TR_AXIS_ONLINE WHERE TO_DATE(AX_CRT_DATE) = TO_DATE(SYSDATE) AND AX_COLL_STATUS ='E';
+--Total pending collection irrespective of date
+SELECT count(*)   FROM crs_tr_axis_online WHERE  ax_coll_status ='P';
+ 
+Overall retail collection(today count)
+ 
+SELECT count(*)
+      FROM BRS.CRS_TR_COLLECTIONDETAIL
+      JOIN BRS.CRS_TR_COLLECTION
+      ON BRS.CRS_TR_COLLECTION.COLLECTIONID = BRS.CRS_TR_COLLECTIONDETAIL.COLLECTIONID
+      WHERE CRS_TR_COLLECTION.Status=1 and CRS_TR_COLLECTIONDETAIL.COI_NUMBER is null
+      and to_date(BRS.CRS_TR_COLLECTION.COLLECTIONDATE , 'DD/MM/YYYY') = to_date(sysdate, 'DD/MM/YYYY');
+     
+ 
+Overall FC except Cash/cheque:
+--FC COUNT
+SELECT COUNT(*)  FROM CRS_TR_FCQUEUE WHERE TO_DATE(CRT_DATE)= TO_DATE(SYSDATE)  ;
+--FC DONE
+SELECT COUNT(*)  FROM CRS_TR_FCQUEUE WHERE TO_DATE(CRT_DATE)= TO_DATE(SYSDATE) AND STATUS='D' ;
+--FC IN ERROR
+SELECT COUNT(*)  FROM CRS_TR_FCQUEUE WHERE TO_DATE(CRT_DATE)= TO_DATE(SYSDATE) AND STATUS='E'  ;
+--PENDING FC IRRESPECTIVE OF DATE
+select count(*)  from crs_tr_fcqueue where (status='P'  or status='W');
+ 
+Cash/Cheque FC:
+--CASH/CHEQUE FC COUNT
+SELECT COUNT(*)  FROM CRS_TR_CHEQUECASH_FCQUEUE WHERE TO_DATE(CRT_DATE)= TO_DATE(SYSDATE)  ;
+--CASH/CHEQUE FC DONE
+SELECT COUNT(*)  FROM CRS_TR_CHEQUECASH_FCQUEUE WHERE TO_DATE(CRT_DATE)= TO_DATE(SYSDATE) AND STATUS='D' ;
+--CASH/CHEQUE FC ERROR
+SELECT COUNT(*)  FROM CRS_TR_CHEQUECASH_FCQUEUE WHERE TO_DATE(CRT_DATE)= TO_DATE(SYSDATE) AND STATUS='E'  ;
+--PENDING CASH/CHEQUE FC IRRESPECTIVE OF DATE
+SELECT COUNT(*)  FROM CRS_TR_CHEQUECASH_FCQUEUE WHERE (STATUS='P'  OR STATUS='W');
