@@ -1,0 +1,12 @@
+curl --location --request POST 'https://otc.nivabupa.com/BANCAAPI/API/Lead/AxisLeadEncryptDetails' \
+--header 'Authorization: ed5a7023-27c0-4430-a673-074c7ea1a3d3' \
+--header 'BankName: Axis' \
+--header 'ProductType: Retail' \
+--header 'Content-Type: application/json' \
+--data-raw '{"payload":"yUXqSKuEtB0kAfK4anS6AmKqFEksMRI3Q9oXdTC4k5fdMNuvba5LWbJwWs/n0PpupCVajO2v+76XZCd5uByQmlbxSZIlGIYO4hLapHhotjtOI4yD0hfSG4jVvFU9KYMhH20TYjPCE5ALWkozVJ6TgGshL4a88xCvKNbDkCfReKGHCS73EeWNHIW9FBDT/G1WGAI+Wa2DXnxaWhSfBcZTpQsS4W1Vu7M017Qi8XyRao/i01UG+E3hgVkNdiBBgjxR3KiqpTeq65JYE+jmekWnF8h5gGuP9GfY9BsrPi/+lS5IeEdQcM96WaDrijmQIlmTAaGCvCMTn+DVbGV5Nux3mZed5FRIpeylDS2LRNGYBQIkD/Kvsg2CHyoh7gBk3GrmAcHxVeww4ABUc0RioukqAVZbjHDVZij/9RDFJYP8e2/e0i5C6mK5eF+tbxFRtTm0kEGwlqakTOEl5eV6zPKf9bOxTHEQE7uxHONPYTyM39FxnCbdWUcVJc8BRNZvgs8yCaLZBl/KBj8DTk6Ll9InIVjlPCYqifgzN6sAnC6Y35NnhiXvnpFC0DAl1/cvqU0DWx6gsWC+whKvD7d+5tgJoOqqcktu92b88p8L9MpihRsXgk0jxst1MYYlwxrljPnbRaAExx46x9dyEYi9J7OpgdNM4pe4WKkAPXL4h8Jn3ZnsReNl2WrZIVKnl3kWuySquAE90+oRRO7nJB+kF/7tyAPj3h4kDGSMDDD8EOyxsRRexFK6bH4nJK5R+xN6etlVBUg62RxrDJ3TrL+TZZtWlhc/60YixF9t87NZW779aRS7KMbvFz1YZp34+WNEO2+u2hDDfVji1uuGCtJWa3OYF/ikip1ujy8sD0iRT92XycZGuk0ilgrDqXbmmansFxnu7Hj4nP/u1fYcEneZ2eyHKgwQOZIq5v6Nt1oaymE46OTGUrlTsgL1PVJlBa2gMEmVUFS5QuAIFgN8P25ZpV5O4wszPxBQWLLK+jzgbyZQo/oW6sR0Na6n1jVSna/htks="}'
+
+Response 
+
+{
+    "payload": "werdj2kN0xQTCGvR01fOM5/9RmAKXova9GtvmjYSUcLrW7ZZJFP/KlrQ9PBEgmAJ/n8JXmllguu7Y4qIY9iZAH4SsBCQj/VtpWGaiZwdzs+hKjdwMrdse5hqrY8oSw65TSYqa1q0uv7Y1oyAc46+GChCohatOJ2XgHN6TVyK+N2AptUMKEAkI46RAdU/ZOP9cnxhzY1Po9o+xI3/GjO1HxIP3cHXeQCazqzmIMReLIJiBOV64astaJj4ANr2EJer"
+}
