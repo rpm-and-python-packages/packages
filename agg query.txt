@@ -1,0 +1,249 @@
+{
+
+  "aggs": {
+
+    "2": {
+
+      "terms": {
+
+        "field": "hld_application_handle",
+
+        "order": {
+
+          "_count": "desc"
+
+        },
+
+        "size": 500
+
+      },
+
+      "aggs": {
+
+        "3": {
+
+          "terms": {
+
+            "field": "hostname.keyword",
+
+            "order": {
+
+              "_count": "desc"
+
+            },
+
+            "size": 500
+
+          },
+
+          "aggs": {
+
+            "4": {
+
+              "terms": {
+
+                "field": "server_ip.keyword",
+
+                "order": {
+
+                  "_count": "desc"
+
+                },
+
+                "size": 500
+
+              },
+
+              "aggs": {
+
+                "5": {
+
+                  "terms": {
+
+                    "field": "instance.keyword",
+
+                    "order": {
+
+                      "_count": "desc"
+
+                    },
+
+                    "size": 500
+
+                  },
+
+                  "aggs": {
+
+                    "6": {
+
+                      "terms": {
+
+                        "field": "tabname.keyword",
+
+                        "order": {
+
+                          "_count": "desc"
+
+                        },
+
+                        "size": 500
+
+                      },
+
+                      "aggs": {
+
+                        "7": {
+
+                          "terms": {
+
+                            "field": "tabschema.keyword",
+
+                            "order": {
+
+                              "_count": "desc"
+
+                            },
+
+                            "size": 500
+
+                          },
+
+                          "aggs": {
+
+                            "8": {
+
+                              "terms": {
+
+                                "field": "ALERT_STATUS.keyword",
+
+                                "order": {
+
+                                  "_count": "desc"
+
+                                },
+
+                                "size": 500
+
+                              }
+
+                            }
+
+                          }
+
+                        }
+
+                      }
+
+                    }
+
+                  }
+
+                }
+
+              }
+
+            }
+
+          }
+
+        }
+
+      }
+
+    }
+
+  },
+
+  "size": 0,
+
+  "_source": {
+
+    "excludes": []
+
+  },
+
+  "stored_fields": [
+
+    "*"
+
+  ],
+
+  "script_fields": {},
+
+  "docvalue_fields": [
+
+    {
+
+      "field": "@timestamp",
+
+      "format": "date_time"
+
+    },
+
+    {
+
+      "field": "blocked_time",
+
+      "format": "date_time"
+
+    }
+
+  ],
+
+  "query": {
+
+    "bool": {
+
+      "must": [],
+
+      "filter": [
+
+        {
+
+          "match_all": {}
+
+        },
+
+        {
+
+          "match_phrase": {
+
+            "type.keyword": {
+
+              "query": "DB2_db_Lockwaits"
+
+            }
+
+          }
+
+        },
+
+        {
+
+          "range": {
+
+            "@timestamp": {
+
+              "format": "strict_date_optional_time",
+
+              "gte": "now-1h",
+
+              "lte": "now"
+
+            }
+
+          }
+
+        }
+
+      ],
+
+      "should": [],
+
+      "must_not": []
+
+    }
+
+  }
+
+}

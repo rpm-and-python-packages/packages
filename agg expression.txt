@@ -1,0 +1,127 @@
+(function()
+
+{
+
+ 
+
+        var code_bucket = response;                                      //Your Response Bucket or you can use "response",type=object
+
+        ${tmp.app} ="";                                                 //Service Now Application  ,type==String
+
+        ${tmp.issue} ="";                                       //Issue ,type==String
+
+        ${tmp.upstream} ="";                                    //Upstream Application ,type==String
+
+        ${tmp.downstream} ="";                             //Downstteam Application ,type==String
+
+        ${tmp.service_path} ="";                           //Business Service Impact ,type==String
+
+        ${tmp.severity} = "Sev2";                                       //(Sev1,Sev2,Sev3,Sev4) ,type==String
+
+        //SERVICE NOW HOSTS
+
+        ${tmp.ip1} ="172.29.8.27";                                              //service now ip1,type=string
+
+        ${tmp.ip2} ="10.175.6.83";                                              //service now ip2,type=string
+
+        ${tmp.ip3} ="10.175.6.29";                                              //service now ip3,type=string
+
+        var dev_token = "1091136832:AAEWdWZ1DYTlVDS8vhHnAB-RQrgJf6-cbKc";
+
+        var dev_chatid = "-289475056"
+
+//      var prod_token = "907484899:AAF2bEhn3dDBBW-nQBAJanhiBXzNP22FtcI";
+
+//     var prod_chatid = "-321565096"
+
+       var env_token = "1516793904:AAFrbyoYoDBPy80wX730KtjQFMGFMNPJcow";
+
+        var env_chatid = "-407918542"
+
+//     var domain=".olamdomain"
+
+        //Your Actual expression starts here
+
+        //console.log("DB2 Lock state Response Print----->",code_bucket.aggregations[2].buckets);
+
+        var records=code_bucket.aggregations[2].buckets;
+
+        records.forEach(function(node){
+
+                var date =new Date(/*Your Date Field*/).toString(); //configure date parameter.use "Date.now()" if your response does not contain any.
+
+                ${tmp.alert_date} =date.slice(0, 24);
+
+                // var env = node["_source"]['Environment'] !== "" ? node["_source"]['Environment'].toLowerCase() : "";
+
+                //${tmp.token}= env == "production" ? prod_token  : dev_token ;
+
+                //${tmp.chatid}= env == "production" ? prod_chatid : dev_chatid ;
+
+        //      ${tmp.token}=prod_token;
+
+//              ${tmp.token}=dev_token;
+
+        //      ${tmp.chatid}=prod_chatid;
+
+               ${tmp.token}=env_token;
+
+               ${tmp.chatid}=env_chatid;
+
+//              ${tmp.chatid}=dev_chatid;
+
+                ${tmp.host}=node[3].buckets[0].key;
+
+                 if(node["doc_count"]>1 && node[3].buckets[0][4].buckets[0][5].buckets[0][6].buckets[0][7].buckets[0][8].buckets[0].key =="start"){
+
+                        ${tmp.telegram_message} = "<b>Olam Alert:</b>" + "DB2 db is in lock state in last 15 min for \n\n<b>IP:</b> "+node[3].buckets[0][4].buckets[0].key+"\n"+"<b>Table Schema:</b>"+node[3].buckets[0][4].buckets[0][5].buckets[0][6].buckets[0][7].buckets[0].key+"\n"+"<b>Table Name:</b>"+node[3].buckets[0][4].buckets[0][5].buckets[0][6].buckets[0].key+"\n"+"<b>Host: </b>" + node[3].buckets[0].key+"\n"+"<b>Instance:</b>"+node[3].buckets[0][4].buckets[0][5].buckets[0].key + "\n" +"<b>HLD Application Handle:</b>"+node.key;
+
+ 
+
+ 
+
+                        ${tmp.noc_short_text}= "DB2 db is in lock state in last 15 min. IP:"+node[3].buckets[0][4].buckets[0].key+" Table Schema: "+node[3].buckets[0][4].buckets[0][5].buckets[0][6].buckets[0][7].buckets[0].key+" Table Name: "+node[3].buckets[0][4].buckets[0][5].buckets[0][6].buckets[0].key+" Host:"+ node[3].buckets[0].key+" Instance:"+node[3].buckets[0][4].buckets[0][5].buckets[0].key + "HLD Application Handle:"+node.key;
+
+ 
+
+                        ${tmp.noc_message}=   "Olam Alert: DB2 db is in lock state in last 15 min. IP:"+node[3].buckets[0][4].buckets[0].key+" Table Schema: "+node[3].buckets[0][4].buckets[0][5].buckets[0][6].buckets[0][7].buckets[0].key+" Table Name: "+node[3].buckets[0][4].buckets[0][5].buckets[0][6].buckets[0].key+" Host:"+ node[3].buckets[0].key+" Instance:"+node[3].buckets[0][4].buckets[0][5].buckets[0].key +  "HLD Application Handle:"+node.key;
+
+                        ${ALERT_ID} ="db2LockInformation"+node[3].buckets[0][4].buckets[0].key+node[3].buckets[0].key+node.key;
+
+                        alertUp();
+
+                  }
+
+                  else{
+
+                        ${tmp.telegram_message} = "<b>Olam Alert:</b>" + "DB2 db is in lock state in last 15 min for \n\n<b>IP:</b> "+node[3].buckets[0][4].buckets[0].key+"\n"+"<b>Table Schema:</b>"+node[3].buckets[0][4].buckets[0][5].buckets[0][6].buckets[0][7].buckets[0].key+"\n"+"<b>Table Name:</b>"+node[3].buckets[0][4].buckets[0][5].buckets[0][6].buckets[0].key+"\n"+"<b>Host: </b>" + node[3].buckets[0].key+"\n"+"<b>Instance:</b>"+node[3].buckets[0][4].buckets[0][5].buckets[0].key + "\n" +"<b>HLD Application Handle:</b>"+node.key;
+
+ 
+
+ 
+
+                        ${tmp.noc_short_text}= "DB2 db is in lock state in last 15 min. IP:"+node[3].buckets[0][4].buckets[0].key+" Table Schema: "+node[3].buckets[0][4].buckets[0][5].buckets[0][6].buckets[0][7].buckets[0].key+" Table Name: "+node[3].buckets[0][4].buckets[0][5].buckets[0][6].buckets[0].key+" Host:"+ node[3].buckets[0].key+" Instance:"+node[3].buckets[0][4].buckets[0][5].buckets[0].key + "HLD Application Handle:"+node.key;
+
+ 
+
+                        ${tmp.noc_message}=   "Olam Alert: DB2 db is in lock state in last 15 min. IP:"+node[3].buckets[0][4].buckets[0].key+" Table Schema: "+node[3].buckets[0][4].buckets[0][5].buckets[0][6].buckets[0][7].buckets[0].key+" Table Name: "+node[3].buckets[0][4].buckets[0][5].buckets[0][6].buckets[0].key+" Host:"+ node[3].buckets[0].key+" Instance:"+node[3].buckets[0][4].buckets[0][5].buckets[0].key +  "HLD Application Handle:"+node.key;
+
+                        ${ALERT_ID} ="db2LockInformation"+node[3].buckets[0][4].buckets[0].key+node[3].buckets[0].key+node.key;
+
+                        alertDown();
+
+                   }
+
+ 
+
+ 
+
+ 
+
+        });
+
+ 
+
+}
+
+)()
