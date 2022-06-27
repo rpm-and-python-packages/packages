@@ -1,0 +1,57 @@
+https://otc.nivabupa.com/EMILoanConfigurator/api/EMILoan/CalculateEMI
+
+ 
+
+curl --location --request POST 'https://otc.nivabupa.com/EMILoanConfigurator/api/EMILoan/CalculateEMI' \
+
+--header 'SourceSystem: InstaInsureAgency' \
+
+--header 'LoanProvider: ES' \
+
+--header 'ClientSecretKey: w5q4543i&DS9' \
+
+--header 'Content-Type: application/json' \
+
+--data-raw '{"ProductCode":1 , "ProductVarient":"","PremiumAmount":"10000","SumInsured":"100000","ChannelName":1,"SystemName":1,"LoanEMIProvider":"ES"}'
+
+ 
+
+ 
+
+https://otc.nivabupa.com/EMILoanConfigurator/api/EMILoan/GetStatus
+
+ 
+
+curl --location --request POST 'https://otc.nivabupa.com/EMILoanConfigurator/api/EMILoan/GetStatus' \
+
+--header 'LoanProvider: ES' \
+
+--header 'SourceSystem: InstaInsureAgency' \
+
+--header 'ClientSecretKey: w5q4543i&DS9' \
+
+--header 'Content-Type: application/json' \
+
+--data-raw '{
+
+    "mbhiTransactionNo": "AGT0000346211",
+
+    "applicationNo": "821100621845"
+
+}'
+
+ 
+
+https://otc.nivabupa.com/EMILoanConfigurator/api/EMILoan/UpdateLoanSanctionStatus
+
+ 
+
+curl --location --request POST 'https://otc.nivabupa.com/EMILoanConfigurator/api/EMILoan/UpdateLoanSanctionStatus' \
+
+--header 'Content-Type: application/json' \
+
+--header 'LoanProvider: ES' \
+
+--header 'Authorization: xZWnmUPxtmbF9-wa67b9avdF1Uzp-n0aoAMlVipfRqFdN4oTg0qOVLS9IycaoXEeKQpRas5PB11ZZIMSfJzvI-se3fXAg7EXyRKOOXiwi2aROeOKtz1-Y_3qVeHqqpubB_k18nBreWkJLDPfv7eBhiYAK3WQ_oweyGT34cei2EOL7o5g1uUokYbdhAT-y2rbEOYMm0-5NUCokFvMAvhiH5UjaNwVA7oZQJtWky0xUTrnl8Zudpbdm2l4Ht_YpsTN' \
+
+--data-raw '{"LoanId":"821100121805l","MBHITransactionNo":"ABCD","ApplicationNo":"821100121805","ChannelSource":"InstaAg","SanctionAmount":"24446.0","LoanTenure":"","status":"MBHI_APPROVED","Remarks":"success"}'
