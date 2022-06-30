@@ -1,0 +1,10 @@
+select  a.*,b.login_name,b.host_name  from (
+SELECT DB_NAME(r.database_id) DBName,r.session_id,
+       left(st.TEXT,3000) AS batch_text, convert(nvarchar(20), r.start_time,113) start_time,  r.status,   r.total_elapsed_time, convert(time,dateadd(ms,r.total_elapsed_time,0)) TotalTime
+FROM sys.dm_exec_requests AS r
+     CROSS APPLY sys.dm_exec_sql_text(r.sql_handle) AS st
+     CROSS APPLY sys.dm_exec_query_plan(r.plan_handle) AS qp
+WHERE r.database_id>4  
+) a   
+inner join (select distinct session_id,login_name,host_name  from sys.dm_exec_sessions) b on a.session_id=b.session_id
+where  TotalTime>='00:03:00'  and a.DBName<>'distribution' order by total_elapsed_time desc

@@ -1,0 +1,101 @@
+-----------------------------------------------------Top 10 OBJECTS BY SIZE--------------------------------------
+
+
+
+declare @dbname sysname
+declare @dbid varchar(5)
+declare @sql as varchar(4000)
+ 
+ 
+CREATE TABLE #sys_table_sizes (
+    database_id int,
+    database_name SYSNAME, 
+    schema_id int,
+    object_id int,
+    object_name sysname, 
+    row_count CHAR(11), 
+    Total_data_size_in_mb decimal(15,2),
+    Total_data_size_in_gb decimal(15,2),
+    Table_Type char(20)
+ 
+)
+ 
+ 
+CREATE TABLE #sys_table_sizes_xml_and_fulltext (
+ 
+    database_id int,
+    schema_id int,
+    object_id int,
+    
+)
+ 
+declare dbname_cursor CURSOR FOR
+SELECT name, database_id from sys.databases 
+where database_id not in (1,2,3,4) and state=0
+ 
+OPEN dbname_cursor
+FETCH NEXT FROM dbname_cursor
+INTO @dbname, @dbid
+WHILE @@FETCH_STATUS = 0
+BEGIN
+ 
+set @sql = 'insert into #sys_table_sizes
+        select ''' +@dbid + ''' database_id, ''' +
+        @dbname + ''' database_name, o.schema_id schema_id,
+        ps.object_id object_id,object_name(ps.object_id, '+ @dbid + ') object_name, 
+        row_count = sum (case when (index_id<2) then row_count else ''0'' end),
+        Total_data_size_in_mb = convert(numeric(15,2),sum (case when (index_id<2) 
+                            then (in_row_data_page_count + lob_used_page_count + row_overflow_used_page_count) 
+                            else ''0'' end)*8/1024.,2),
+        Total_data_size_in_gb = convert(numeric(15,2),sum (case when (index_id<2) 
+                            then (in_row_data_page_count + lob_used_page_count + row_overflow_used_page_count) 
+                            else ''0'' end)*8/1024/1024.,2),
+        o.type_desc as Table_Type               
+        from [' + @dbname + '].sys.dm_db_partition_stats ps
+        join [' + @dbname + '].sys.objects o on ps.object_id=o.object_id
+        where is_ms_shipped = 0
+        group by o.schema_id, ps.object_id,o.type_desc'
+ 
+--print @sql
+exec (@sql)
+set @sql = '
+insert into #sys_table_sizes_xml_and_fulltext
+select ''' +@dbid + ''' database_id, 
+(select schema_id from [' + @dbname + '].sys.objects where object_id = it.parent_object_id) schema_id,
+it.parent_object_id object_id
+from [' + @dbname + '].sys.dm_db_partition_stats ps
+join [' + @dbname + '].sys.objects o on ps.object_id=o.object_id
+join [' + @dbname + '].sys.internal_tables it  on ps.object_id = it.object_id
+where it.internal_type IN (202,204,211,212,213,214,215,216) 
+group by o.schema_id, it.parent_object_id'
+ 
+--print @sql
+exec (@sql)
+   FETCH NEXT FROM dbname_cursor
+   INTO @dbname, @dbid
+END
+ 
+ 
+CLOSE dbname_cursor
+DEALLOCATE dbname_cursor
+ 
+go
+ 
+--TOP N rows
+--define a CTE with the name cte_table to get top 10 biggest tables in every database
+;WITH cte_table AS (
+  SELECT ROW_NUMBER() OVER ( PARTITION BY database_name ORDER BY Total_data_size_in_mb  DESC ) AS 'RowNumber',
+    database_name, object_name, row_count,
+    cast(Total_data_size_in_mb as decimal(18,2)) Total_data_size_in_mb,
+    cast(Total_data_size_in_gb as decimal(18,2)) Total_data_size_in_gb, Table_Type
+    FROM #sys_table_sizes
+ 
+)   
+-- and select the data from the CTE table
+SELECT top 10 database_name, object_name, row_count,
+  Total_data_size_in_mb,Total_data_size_in_gb, Table_Type
+  FROM cte_table
+  WHERE RowNumber <= 10 order by Total_data_size_in_mb desc
+   
+drop table #sys_table_sizes
+drop table #sys_table_sizes_xml_and_fulltext
