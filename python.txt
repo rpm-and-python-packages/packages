@@ -1,0 +1,92 @@
+import os, sys
+import config
+from datetime import datetime
+import requests
+import json
+import urllib3
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+import warnings
+warnings.filterwarnings('ignore', message='Unverified HTTPS request')
+
+Current_date = datetime.utcnow().strftime('%Y-%m-%d')
+authToken = ''
+
+os.environ['NO_PROXY'] = '10.10.10.10';
+
+
+
+data = {'username': config.vropsAuthUserName,'password': config.vropsAuthPassword,'authSource': config.vropsAuthSource}
+
+headers = {'Content-Type': 'application/json',
+               'Accept': 'application/json'}
+generateAuthTokenResponse = requests.post(config.vropsAuthTokenEndpoint, headers=headers, json=data, verify=False)
+responseBody = generateAuthTokenResponse
+response=responseBody.text
+response1=json.loads(response)
+authToken = str(response1["token"])
+
+def get_host_systems():
+
+ headers2 = {'Authorization': 'vRealizeOpsToken ' + authToken,
+               'Content-Type': 'application/json',
+               'Accept': 'application/json'}
+
+
+ HostSystem = requests.get(config.vropsHostSystemListEndpoint, headers=headers2, verify=False)
+ responseBodyHostSystem = HostSystem
+ responseHostSystem=responseBodyHostSystem.text
+ response1HostSystem=json.loads(responseHostSystem)
+ hostSystems = []
+ for resource in response1HostSystem["resourceList"]:
+        hostSystems.append(resource)
+        return hostSystems
+
+
+def fetch_and_save_resource_stats(resourceType, resourceId, resourceName, hostSystemId, hostSystemName):
+    #headers for generating the AuthToken
+    headers3 = {'Authorization': 'vRealizeOpsToken ' + authToken,
+               'Content-Type': 'application/json',
+               'Accept': 'application/json'}
+
+
+    StatsUrl = requests.get(config.vropsGetStatsUrl.format(resourceId), headers=headers3, verify=False)
+    responseBodyStatsUrl = StatsUrl
+    responseStatsUrl=responseBodyStatsUrl.text
+    response1StatsUrl=json.loads(responseStatsUrl)
+    if resourceType.lower != "hostsystem":
+        for stat in response1StatsUrl["values"][0]["stat-list"]["stat"]:
+
+                elkurl = "https://11.11.11.11.11:9200/vrops_data-"+Current_date+"/_doc"
+                headers9 = {'Content-type':'application/json'}
+                timestamp = datetime.utcnow().isoformat()
+                postdata = {"Stat":str(stat["statKey"]["key"]),"Value":stat["data"][0],"vropsResourceType":resourceType,"vropsResourceId":resourceId,"vropsResourceName":resourceName,"vropsResourceHostSystemId":hostSystemId,"vropsResourceHostSystemName":hostSystemName,"@timestamp":timestamp}
+                post=requests.post(elkurl, headers = headers9, json = postdata, verify = False, auth=('elastic','elkhdfc2022'))
+                postresponse = post.text
+                postresponseFinal = json.loads(postresponse)
+                print(postresponseFinal)
+    else:
+        for stat in response1StatsUrl["values"][0]["stat-list"]["stat"]:
+                print ("inserting into OpenTsdb2 : Stat = ",str(stat["statKey"]["key"])," Value = ",stat["data"][0]," vropsResourceType = ",resourceType," vropsResourceId = ",resourceId," vropsResourceName = ",resourceName)
+
+
+def fetch_and_process_for_associated_resources(hostSystemId, hostSystemName):
+    headers4 = {'Authorization': 'vRealizeOpsToken ' + authToken,
+               'Content-Type': 'application/json',
+               'Accept': 'application/json'}
+    RelationShipsUrl = requests.get(config.vropsGetRelationShipsUrl.format(hostSystemId), headers=headers4, verify=False)
+    responseBodyRelationShipsUrl = RelationShipsUrl
+    responseRelationShipsUrl=responseBodyRelationShipsUrl.text
+    response1RelationShipsUrl=json.loads(responseRelationShipsUrl)
+
+
+
+    for resource in response1RelationShipsUrl["resourceList"]:
+        fetch_and_save_resource_stats(resource["resourceKey"]["resourceKindKey"], resource["identifier"], resource["resourceKey"]["name"], hostSystemId, hostSystemName)
+
+
+
+if __name__ == "__main__":
+
+        hostSystems = get_host_systems()
+        for hostSystem in hostSystems:
+         fetch_and_process_for_associated_resources(hostSystem["identifier"],hostSystem["resourceKey"]["name"])
