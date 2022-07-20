@@ -1,0 +1,11 @@
+vropsHostname = "9.9.9.9"
+vropsAuthTokenEndpoint = "https://9.9.9.9/suite-api/api/auth/token/acquire"
+vropsAuthUserName = "GENAIOPSA"
+vropsAuthPassword = "Jun@2022"
+vropsAuthSource = "HBCTXDOM AD Integration"
+
+vropsHostSystemListEndpoint = "https://9.9.9.9/suite-api/api/resources?resourceKind=HostSystem"
+#vropsVMWAREListEndpoint = "https://9.9.9.9/suite-api/api/resources?resourceKind=VMWARE"
+
+vropsGetStatsUrl = "https://9.9.9.9/suite-api/api/resources/{}/stats/latest"
+vropsGetRelationShipsUrl = "https://9.9.9.9/suite-api/api/resources/{}/relationships"
