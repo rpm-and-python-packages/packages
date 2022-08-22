@@ -1,0 +1,55 @@
+{
+	"name": "AIRTEL_BILLING-AC-FETCH",
+	"run_time": "*/1 * * * *",
+	"datasource": "elasticsearch",
+	"es_host": "localhost:9200",
+	"index": "kubenodeinfo",
+	"type": "stateful",
+	"start_poll_count":1,
+	"end_poll_count":1,
+	
+	
+	"alert_start": [
+		{
+			"type": "slack",
+			"config": {
+			"bot_token": "xoxb-2363290466224-2341878579861-kkrQLF9vG9yEQweptjNA4Fd9",
+			"room_id": "C029Q6XALKZ"
+                },
+					"tag":"testing",
+			"text": "AIRTEL.IN ALERT ISSUE  started \n\n\u26a0 *watch_sample* \ud83d\udeab\n\n*Failure Percentage Threshold Breached: * ${tmp.failure_percentage} \ud83d\ude31"
+		},
+		{
+			"type": "slack",
+			"config": {
+			"bot_token": "xoxb-2363290466224-2341878579861-kkrQLF9vG9yEQweptjNA4Fd9",
+			"room_id": "C029Q6XALKZ"
+                },
+					"tag":"testing",
+			"text": "AIRTEL.IN ALERT ISSUE  2nd alert started \n\n\u26a0 *watch_sample* \ud83d\udeab\n\n*Failure Percentage Threshold Breached: * ${tmp.failure_percentage} \ud83d\ude31"
+		}
+		
+	],
+	
+	"alert_end": [
+		{
+                 "type": "telegram",
+                 "config": {
+                "bot_token": "xoxb-2363290466224-2341878579861-kkrQLF9vG9yEQweptjNA4Fd9",
+			    "room_id": "C029Q6XALKZ"
+                },
+				"tag":"testing",
+                        "text": "AIRTEL.IN ISSUE RESOLVED\n\n\u2705 *watch_sample* \ud83d\ude0a\n\n*Failure Percentage within Threshold: * ${tmp.failure_percentage} \ud83d\ude05"
+                },
+				{
+                 "type": "telegram",
+                 "config": {
+                "bot_token": "xoxb-2363290466224-2341878579861-kkrQLF9vG9yEQweptjNA4Fd9",
+			    "room_id": "C029Q6XALKZ"
+                },
+				"tag":"testing",
+                        "text": "AIRTEL.IN 2nd ISSUE RESOLVED\n\n\u2705 *watch_sample* \ud83d\ude0a\n\n*Failure Percentage within Threshold: * ${tmp.failure_percentage} \ud83d\ude05"
+                }
+	]
+	
+}
