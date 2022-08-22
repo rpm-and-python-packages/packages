@@ -1,0 +1,13 @@
+var request = require('request');
+var options = {
+  'method': 'GET',
+  'url': 'http://localhost:3000/api/v1/push.get?id=WkbwSntxt8D3jLp8G',
+  'headers': {
+    'X-User-Id': 'd26x6zSkaPSe5gCyy',
+    'X-Auth-Token': 'Zu-Z6eKzIIz7MCCRGeHi29bYkXZCJ4SxFC0JAasqm92'
+  }
+};
+request(options, function (error, response) {
+  if (error) throw new Error(error);
+  console.log(response.body);
+});
