@@ -1,11 +1,1 @@
-input {
-  jdbc {
-    jdbc_driver_library => "/usr/share/logstash/postgresql-42.2.22.jar"
-    jdbc_driver_class => "org.postgresql.Driver"
-    jdbc_connection_string => "jdbc:postgresql://localhost:5432/inventorydb"
-    jdbc_user => "postgres"
-    jdbc_password => "postgres"
-    schedule => "* * * * *"
-    statement => "SELECT * from booksdb"
-  }
-}'
+select count(*),status,sub_status from task where created_Date is not null and created_date > NOW() - INTERVAL '30 MINUTES' and organisation_Process_path='AIRTEL.B2B.ACQUISITION' and sub_product_type in ('Lead') group by status,sub_status
