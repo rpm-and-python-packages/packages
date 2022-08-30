@@ -1,0 +1,1 @@
+ select "IP","host" ,"used_percent","Business unit", "Application Name", "Environment" ,"Device Type" from (Select mean("used_percent") as "used_percent" from mem where time>now()-5m AND ("host" =~ /.*hana.*/ OR "host" =~ /.*HANA.*/) group by "host", "Business unit", "Application Name", "Environment","IP","Device Type");
