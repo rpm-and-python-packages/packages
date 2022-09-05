@@ -1,0 +1,35 @@
+#!/bin/bash
+source ~/.bash_profile
+#ChatID="-328333896"
+#Token="bot1287368693:AAHnuUb7Z0gX2Njzm4OP4gffQuUH0_1Owec"
+OPCO="UNOC_ELK_CLUSTER_1"
+HOST=mnvl-netcool-elk-master1.enoc.airtel.com
+echo $HOST
+APPLICATION="SERVER"
+INDEX="remedy_log_dump-*"
+DAYS=1
+msg="${OPCO} - ${APPLICATION} Index has been deleted"
+LIST=$(curator_cli --host $HOST show-indices --filter_list '[{"filtertype":"age","source":"name","timestring":"%Y.%m.%d","unit":"hours","unit_count":'$DAYS',"direction":"older"},{"filtertype":"pattern","kind":"prefix","value":"'$INDEX'"}]')
+#LIST=$(curator_cli --host $HOST show-indices --filter_list '[{"filtertype":"age","source":"name","timestring":"%Y.%m.%d","unit":"days","unit_count":'$DAYS',"direction":"older"},{"filtertype":"pattern","kind":"prefix","value":"'$INDEX'"}]')
+Msg="Below are the list of SERVER Index's older than '$DAYS' days going to be deleted:$LIST"
+COUNT=$(curator_cli --host $HOST show-indices --filter_list '[{"filtertype":"age","source":"name","timestring":"%Y.%m.%d","unit":"hours","unit_count":'$DAYS',"direction":"older"},{"filtertype":"pattern","kind":"prefix","value":"'$INDEX'"}]'|wc -l)
+#COUNT=$(curator_cli --host $HOST show-indices --filter_list '[{"filtertype":"age","source":"name","timestring":"%Y.%m.%d","unit":"days","unit_count":'$DAYS',"direction":"older"},{"filtertype":"pattern","kind":"prefix","value":"'$INDEX'"}]'|wc -l)
+
+#echo $LIST
+#echo $COUNT
+
+if [ "$COUNT"  -gt 3 ];
+then
+#curl -k -X POST "https://api.telegram.org/$Token/sendMessage" -d chat_id=$ChatID -d text="$Msg";
+#curator_cli --host $HOST delete-indices --filter_list '[{"filtertype":"age","source":"name","timestring":"%Y.%m.%d","unit":"days","unit_count":'$DAYS',"direction":"older"},{"filtertype":"pattern","kind":"prefix","value":"'$INDEX'"}]'
+curator_cli --host $HOST delete-indices --filter_list '[{"filtertype":"age","source":"name","timestring":"%Y.%m.%d","unit":"hours","unit_count":'$DAYS',"direction":"older"},{"filtertype":"pattern","kind":"prefix","value":"'$INDEX'"}]'
+#sleep 20s
+#COUNT1=$(curator_cli --host $HOST show-indices --filter_list '[{"filtertype":"age","source":"name","timestring":"%Y.%m.%d","unit":"days","unit_count":'$DAYS',"direction":"older"},{"filtertype":"pattern","kind":"prefix","value":"'$INDEX'"}]'|wc -l)
+##echo $STATUS1
+#if [ "$COUNT1" -lt 5 ];
+#then
+#curl -k -X POST "https://api.telegram.org/$Token/sendMessage" -d chat_id=$ChatID -d text="$msg";
+else
+        exit 0;
+      fi
+#          fi
