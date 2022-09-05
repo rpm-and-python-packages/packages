@@ -1,0 +1,99 @@
+#!/bin/bash
+ChatID="-456953621"
+Token="bot1279316528:AAE3jYa7yKwM7ap91fJD49kfIMsW1vZQvqg"
+DAY=2
+INDEX="stackstorm_logs_testing*"
+
+ 
+
+Current_COUNT ()
+{
+Present_Data=$(curl -XGET "http://172.29.8.87:9200/$INDEX/_search" -H 'Content-Type: application/json' -d'
+{
+"query": {
+"range" : {
+"@timestamp" : {
+"lte": "now-'$DAY'd"
+}
+}
+}
+}'|jq '.hits.total')
+Msg=$(echo "Total data present in $INDEX for more than $DAY is $Present_Data")
+echo $Msg
+curl -k -X POST "https://api.telegram.org/$Token/sendMessage" -d chat_id=$ChatID -d text="$Msg";
+
+ 
+
+}
+
+ 
+
+INDEX_DELETION()
+{
+curl -XPOST "http://172.29.8.87:9200/$INDEX/_delete_by_query" -H 'Content-Type: application/json' -d'
+{
+"query": {
+"range" : {
+"@timestamp" : {
+"lte": "now-'$DAY'd"
+}
+}
+}
+}'
+Msg=$(echo "DATA DELETED FROM $INDEX")
+
+ 
+
+echo $Msg
+
+ 
+
+curl -k -X POST "https://api.telegram.org/$Token/sendMessage" -d chat_id=$ChatID -d text="$Msg";
+
+ 
+
+}
+
+ 
+
+
+Present_Data=$(curl -XGET "http://172.29.8.87:9200/$INDEX/_search" -H 'Content-Type: application/json' -d'
+{
+"query": {
+"range" : {
+"@timestamp" : {
+"lte": "now-'$DAY'd"
+}
+}
+}
+}'|jq '.hits.total')
+
+ 
+
+ 
+
+if [ $Present_Data -gt 10 ];
+then
+Current_COUNT
+
+ 
+
+sleep 5s
+
+ 
+
+INDEX_DELETION
+
+ 
+
+sleep 45s
+
+ 
+
+Current_COUNT
+else
+exit 0;
+
+ 
+
+fi
