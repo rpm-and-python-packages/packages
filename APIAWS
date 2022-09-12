@@ -1,0 +1,19 @@
+Policy PDF Download Service
+
+http://223.31.157.19:8086/generateToken
+
+http://223.31.157.19:8086/postDocumentStatus
+
+2
+
+Policy Details Submission API (TPD Partners)
+
+http://223.31.157.19:8091/NgcomplexModified/services/NgcomplexService?wsdl
+
+3
+
+Policy Details Submission API in https(TPD Partners)
+
+Created for PayTM
+
+https://smdwp.nivabupa.com:8081/NgcomplexModified/services/NgcomplexService?wsdl
