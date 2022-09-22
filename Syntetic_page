@@ -1,0 +1,2 @@
+await page.type('input[id=login_field]', 'John');
+        await page.type('input[name=password]', 'Password');
