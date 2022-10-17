@@ -1,0 +1,29 @@
+SELECT cont.app_No,cs.pivotal_ID as Cutomer_ID,cont.cont_No||Substr(COnt.cont_yymm,0,4)||cont.renew_year_no as Policy_No,
+
+Cont.eff_Date,cont.end_Date,case when cont.renew_year_no='00' Then 'NEW Business'
+
+Else 'Renewal' End as "Business Type",txn.amt As Premium,s.edesc as Channel
+
+FROM MR_CONTRACT CONT
+
+JOIN CSR.mr_customer_tbl cs on cs.cont_no=cont.cont_no
+
+Inner JOIN SY_Sys_Code s on s.sys_Code=cont.agt_brk_Channel and s.sys_type='CHANNEL'
+
+INNER JOIN BF_TXN TXN ON CONT.CONT_NO =TXN.CONT_NO AND CONT.CONT_YYMM=TXN.CONT_YYMM
+
+INNER JOIN (
+
+SELECT DISTINCT SETTLED_DOC_NO,SETTLE_DATE FROM BF_SETTLEMENT
+
+WHERE TRUNC(SETTLE_DATE)  =to_Date('07-10-2022')
+
+) BF   ON BF.SETTLED_DOC_NO = TXN.DOC_NO
+
+WHERE TXN.DOC_TYPE = 'IV' AND TXN.DOC_STATUS = 'F'
+
+AND TXN.CONT_NO LIKE '3%'
+
+AND TRUNC(SETTLE_DATE)  =to_Date('07-10-2022')  
+
+AND cont.status is null;
