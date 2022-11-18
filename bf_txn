@@ -1,0 +1,1 @@
+select count(cont_no||cont_yymm) As No_Of_Policy_Issued ,sum(settle_Amt) AS SettleAmt from csr.bf_settlement bf where cont_no like '3%' and trunc(bf.settle_date)=trunc(sysdate)
