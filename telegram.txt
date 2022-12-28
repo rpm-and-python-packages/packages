@@ -1,0 +1,36 @@
+1. Done! Congratulations on your new bot. You will find it at t.me/NivaBupa_infra_windows_bot. You can now add a description, about section and profile picture for your bot, see /help for a list of commands. By the way, when you've finished creating your cool bot, ping our Bot Support if you want a better username for it. Just make sure the bot is fully operational before you do this.
+
+Use this token to access the HTTP API:
+5888633825:AAFC9tyJau-X2Gp_TyGmPTc_t_FUpTd02Bc
+Keep your token secure and store it safely, it can be used by anyone to control your bot.
+
+For a description of the Bot API, see this page: https://core.telegram.org/bots/api      -1780270362
+
+
+2. -1782273539
+
+Done! Congratulations on your new bot. You will find it at t.me/NivaBupa_Oracle_Db_Alert_bot. You can now add a description, about section and profile picture for your bot, see /help for a list of commands. By the way, when you've finished creating your cool bot, ping our Bot Support if you want a better username for it. Just make sure the bot is fully operational before you do this.
+
+Use this token to access the HTTP API:
+5957919627:AAGbxydYC2gfKwCLELO4Q-2O-AQwXgTB8E4
+Keep your token secure and store it safely, it can be used by anyone to control your bot.
+
+For a description of the Bot API, see this page: https://core.telegram.org/bots/api
+
+3. Done! Congratulations on your new bot. You will find it at t.me/NivaBupa_MobileApp_bot. You can now add a description, about section and profile picture for your bot, see /help for a list of commands. By the way, when you've finished creating your cool bot, ping our Bot Support if you want a better username for it. Just make sure the bot is fully operational before you do this.
+
+Use this token to access the HTTP API:
+5506657868:AAEsKhbaHc7VGCRYWko_iZa-M-C49YhMZ-E
+Keep your token secure and store it safely, it can be used by anyone to control your bot.
+
+For a description of the Bot API, see this page: https://core.telegram.org/bots/api
+
+-1806828265
+
+4. Done! Congratulations on your new bot. You will find it at t.me/NivaBupa_linux_infra_metrics_bot. You can now add a description, about section and profile picture for your bot, see /help for a list of commands. By the way, when you've finished creating your cool bot, ping our Bot Support if you want a better username for it. Just make sure the bot is fully operational before you do this.
+
+Use this token to access the HTTP API:
+5816909355:AAH7LWJvscbAmKy1lzzE7X-HYckGr7E-vgg
+Keep your token secure and store it safely, it can be used by anyone to control your bot.
+
+For a description of the Bot API, see this page: https://core.telegram.org/bots/api   -1681829242
